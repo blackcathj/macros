@@ -715,6 +715,7 @@ int Fun4All_G4_sPHENIX(
 
 
   se->End();
+  se->PrintTimer();
   std::cout << "All done" << std::endl;
   delete se;
   gSystem->Exit(0);

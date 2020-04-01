@@ -46,7 +46,7 @@ using namespace std;
 
 void Fun4All_G4_Readback(
     const int nEvents = 0,
-    const char *inputFile = "G4sPHENIX.root",
+    const char *inputFile = "/phenix/u/jinhuang/work/sPHENIX/simulation//test/HF-production-bjet-pp200-reco.50.lst",
     const char *outputFile = "G4sPHENIX_G4_Readback.root")
 {
   //---------------
@@ -69,7 +69,7 @@ void Fun4All_G4_Readback(
   //--------------
   // Hits file
   Fun4AllInputManager *hitsin = new Fun4AllDstInputManager("DSTin");
-  hitsin->fileopen(inputFile);
+  hitsin->AddListFile(inputFile);
   se->registerInputManager(hitsin);
 
   {
@@ -98,7 +98,7 @@ void Fun4All_G4_Readback(
     eval->set_use_initial_vertex(g4eval_use_initial_vertex);
     eval->scan_for_embedded(false);  // take all tracks if false - take only embedded tracks if true
     eval->Verbosity(0);
-    se->registerSubsystem(eval);
+//    se->registerSubsystem(eval);
   }
 
   {
