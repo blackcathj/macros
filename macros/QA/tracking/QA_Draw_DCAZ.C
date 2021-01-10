@@ -9,9 +9,9 @@
  */
 
 #include <TFile.h>
-#include <TPaveText.h>
 #include <TH2.h>
 #include <TLine.h>
+#include <TPaveText.h>
 #include <TString.h>
 #include <TTree.h>
 #include <TVirtualFitter.h>
@@ -127,20 +127,20 @@ void QA_Draw_DCAZ(
         bin_start, bin_end);
     if (pt_range.first < 2.0)
     {
-      h_proj_new->GetXaxis()->SetRangeUser(-.05,.05);
+      h_proj_new->GetXaxis()->SetRangeUser(-.05, .05);
       h_proj_new->Rebin(5);
     }
     else
     {
-      h_proj_new->GetXaxis()->SetRangeUser(-.01,.01);
+      h_proj_new->GetXaxis()->SetRangeUser(-.01, .01);
     }
     h_proj_new->SetTitle(TString(hist_name_prefix) + TString::Format(
                                                          ": %.1f - %.1f GeV/c", pt_range.first, pt_range.second));
     h_proj_new->GetXaxis()->SetTitle(TString::Format(
         "DCA (Z) [cm]"));
-    h_proj_new->GetXaxis()->SetNdivisions(5,5);
+    h_proj_new->GetXaxis()->SetNdivisions(5, 5);
 
-    f1 = new TF1("f1","gaus",-.01,.01);
+    f1 = new TF1("f1", "gaus", -.01, .01);
     h_proj_new->Fit(f1);
     fit = h_proj_new->GetFunction("f1");
     sigma = fit->GetParameter(2);
@@ -157,13 +157,13 @@ void QA_Draw_DCAZ(
               bin_start, bin_end);
       if (pt_range.first < 2.0)
       {
-	//h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
-	h_proj_ref->Rebin(5);
+        //h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
+        h_proj_ref->Rebin(5);
       }
     }
     DrawReference(h_proj_new, h_proj_ref);
-    sprintf(resstr,"#sigma = %.5f #pm %.5f cm", sigma, sigma_unc);
-    res = new TLatex(0.325,0.825,resstr);
+    sprintf(resstr, "#sigma = %.5f #pm %.5f cm", sigma, sigma_unc);
+    res = new TLatex(0.325, 0.825, resstr);
     res->SetNDC();
     res->SetTextSize(0.05);
     res->SetTextAlign(13);
@@ -171,7 +171,7 @@ void QA_Draw_DCAZ(
   }
   p = (TPad *) c1->cd(idx++);
   c1->Update();
-  TPaveText *pt = new TPaveText(.05,.1,.95,.8);
+  TPaveText *pt = new TPaveText(.05, .1, .95, .8);
   pt->AddText("No cuts");
   pt->Draw();
 
@@ -238,20 +238,20 @@ void QA_Draw_DCAZ(
         bin_start, bin_end);
     if (pt_range.first < 2.0)
     {
-      h_proj_new2->GetXaxis()->SetRangeUser(-.05,.05);
+      h_proj_new2->GetXaxis()->SetRangeUser(-.05, .05);
       h_proj_new2->Rebin(5);
     }
     else
     {
-      h_proj_new2->GetXaxis()->SetRangeUser(-.01,.01);
+      h_proj_new2->GetXaxis()->SetRangeUser(-.01, .01);
     }
     h_proj_new2->SetTitle(TString(hist_name_prefix) + TString::Format(
-                                                         ": %.1f - %.1f GeV/c", pt_range.first, pt_range.second));
+                                                          ": %.1f - %.1f GeV/c", pt_range.first, pt_range.second));
     h_proj_new2->GetXaxis()->SetTitle(TString::Format(
         "DCA (Z) [cm]"));
-    h_proj_new2->GetXaxis()->SetNdivisions(5,5);
-    
-    f2 = new TF1("f2","gaus",-.01,.01);
+    h_proj_new2->GetXaxis()->SetNdivisions(5, 5);
+
+    f2 = new TF1("f2", "gaus", -.01, .01);
     h_proj_new2->Fit(f2);
     fit2 = h_proj_new2->GetFunction("f2");
     sigma2 = fit2->GetParameter(2);
@@ -268,13 +268,13 @@ void QA_Draw_DCAZ(
               bin_start, bin_end);
       if (pt_range.first < 2.0)
       {
-	//h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
-	h_proj_ref2->Rebin(5);
+        //h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
+        h_proj_ref2->Rebin(5);
       }
     }
     DrawReference(h_proj_new2, h_proj_ref2);
-    sprintf(resstr2,"#sigma = %.5f #pm %.5f cm", sigma2, sigma_unc2);
-    res2 = new TLatex(0.325,0.825,resstr2);
+    sprintf(resstr2, "#sigma = %.5f #pm %.5f cm", sigma2, sigma_unc2);
+    res2 = new TLatex(0.325, 0.825, resstr2);
     res2->SetNDC();
     res2->SetTextSize(0.05);
     res2->SetTextAlign(13);
@@ -282,7 +282,7 @@ void QA_Draw_DCAZ(
   }
   p2 = (TPad *) c2->cd(idx2++);
   c2->Update();
-  TPaveText *pt2 = new TPaveText(.05,.1,.95,.8);
+  TPaveText *pt2 = new TPaveText(.05, .1, .95, .8);
   pt2->AddText("Cuts: MVTX hits>=2, INTT hits>=1,");
   pt2->AddText("TPC hits>=20");
   pt2->Draw();

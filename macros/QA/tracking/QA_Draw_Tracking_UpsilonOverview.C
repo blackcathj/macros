@@ -17,15 +17,15 @@
 #include <cassert>
 #include <cmath>
 
-#include <TF1.h>
-#include <TMath.h>
 #include <TCanvas.h>
-#include <TH1.h>
+#include <TF1.h>
 #include <TGraph.h>
-#include <TLegend.h>
-#include <TStyle.h>
-#include <TROOT.h>
+#include <TH1.h>
 #include <TLatex.h>
+#include <TLegend.h>
+#include <TMath.h>
+#include <TROOT.h>
+#include <TStyle.h>
 
 //some common style files
 #include "../../sPHENIXStyle/sPhenixStyle.C"
@@ -39,7 +39,7 @@ Double_t CBcalc(Double_t *xx, Double_t *par)
   double x = xx[0];
 
   // The four parameters (alpha, n, x_mean, sigma) plus normalization (N) are:
-   
+
   double alpha = par[0];
   double n = par[1];
   double x_mean = par[2];
@@ -48,24 +48,22 @@ Double_t CBcalc(Double_t *xx, Double_t *par)
 
   // we need:
 
-  double A = pow( (n/TMath::Abs(alpha)),n) * exp(-pow(alpha,2)/2.0);
-  double B = n/TMath::Abs(alpha) - TMath::Abs(alpha);
+  double A = pow((n / TMath::Abs(alpha)), n) * exp(-pow(alpha, 2) / 2.0);
+  double B = n / TMath::Abs(alpha) - TMath::Abs(alpha);
 
   // The Crystal Ball function is:
-   
-  if( (x-x_mean)/sigma > -alpha)
+
+  if ((x - x_mean) / sigma > -alpha)
   {
-    f = N * exp( -pow(x-x_mean,2) / (2.0*pow(sigma,2)));
+    f = N * exp(-pow(x - x_mean, 2) / (2.0 * pow(sigma, 2)));
   }
   else
   {
-    f = N * A * pow(B - (x-x_mean)/sigma, -n);
+    f = N * A * pow(B - (x - x_mean) / sigma, -n);
   }
 
   return f;
 }
-
-
 
 void QA_Draw_Tracking_UpsilonOverview(
     const char *hist_name_prefix = "QAG4SimulationUpsilon",
@@ -111,7 +109,6 @@ void QA_Draw_Tracking_UpsilonOverview(
     Nevent_ref = h_norm->GetBinContent(h_norm->GetXaxis()->FindBin("Event"));
   }
 
-
   TCanvas *c1 = new TCanvas(TString("QA_Draw_Tracking_UpsilonOverview") + TString("_") + hist_name_prefix,
                             TString("QA_Draw_Tracking_UpsilonOverview") + TString("_") + hist_name_prefix,
                             1800, 1000);
@@ -154,7 +151,7 @@ void QA_Draw_Tracking_UpsilonOverview(
                                                          ": Electron lineshape"));
     h_proj_new->GetXaxis()->SetTitle(TString::Format(
         "Reco p_{T}/Truth p_{T}"));
-    
+
     TF1 *f_eLineshape = new TF1("f_eLineshape", CBcalc, 7, 11, 5);
     f_eLineshape->SetParameter(0, 1.0);
     f_eLineshape->SetParameter(1, 1.0);
@@ -162,7 +159,7 @@ void QA_Draw_Tracking_UpsilonOverview(
     f_eLineshape->SetParameter(3, 0.08);
     f_eLineshape->SetParameter(4, 20.0);
 
-    f_eLineshape->SetParNames("alpha1S","n1S","m1S","sigma1S","N1S");
+    f_eLineshape->SetParNames("alpha1S", "n1S", "m1S", "sigma1S", "N1S");
     f_eLineshape->SetLineColor(kRed);
     f_eLineshape->SetLineWidth(3);
     f_eLineshape->SetLineStyle(kSolid);
@@ -186,28 +183,27 @@ void QA_Draw_Tracking_UpsilonOverview(
     f_eLineshape_ref->SetParameter(3, 0.08);
     f_eLineshape_ref->SetParameter(4, 20.0);
 
-    f_eLineshape_ref->SetParNames("alpha1S","n1S","m1S","sigma1S","N1S");
+    f_eLineshape_ref->SetParNames("alpha1S", "n1S", "m1S", "sigma1S", "N1S");
     f_eLineshape_ref->SetLineColor(kRed);
     f_eLineshape_ref->SetLineWidth(3);
     f_eLineshape_ref->SetLineStyle(kSolid);
 
     h_proj_ref->Fit(f_eLineshape_ref);
 
-
     DrawReference(h_proj_new, h_proj_ref);
     f_eLineshape->Draw("same");
 
     char resstr_1[500];
-    sprintf(resstr_1,"#sigma_{dp/p} = %.2f #pm %.2f %%", f_eLineshape->GetParameter(3)*100, f_eLineshape->GetParError(3)*100);
-    TLatex *res_1 = new TLatex(0.2,0.75,resstr_1);
+    sprintf(resstr_1, "#sigma_{dp/p} = %.2f #pm %.2f %%", f_eLineshape->GetParameter(3) * 100, f_eLineshape->GetParError(3) * 100);
+    TLatex *res_1 = new TLatex(0.2, 0.75, resstr_1);
     res_1->SetNDC();
     res_1->SetTextSize(0.05);
     res_1->SetTextAlign(13);
     res_1->Draw();
 
     char resstr_2[500];
-    sprintf(resstr_2,"#sigma_{dp/p,ref} = %.2f #pm %.2f %%", f_eLineshape_ref->GetParameter(3)*100, f_eLineshape_ref->GetParError(3)*100);
-    TLatex *res_2 = new TLatex(0.2,0.7,resstr_2);
+    sprintf(resstr_2, "#sigma_{dp/p,ref} = %.2f #pm %.2f %%", f_eLineshape_ref->GetParameter(3) * 100, f_eLineshape_ref->GetParError(3) * 100);
+    TLatex *res_2 = new TLatex(0.2, 0.7, resstr_2);
     res_2->SetNDC();
     res_2->SetTextSize(0.05);
     res_2->SetTextAlign(13);
@@ -217,7 +213,7 @@ void QA_Draw_Tracking_UpsilonOverview(
   {
     p = (TPad *) c1->cd(idx++);
     c1->Update();
-//    p->SetLogy();
+    //    p->SetLogy();
 
     TH1 *h_new = (TH1 *) qa_file_new->GetObjectChecked(
         prefix + TString("nReco_Pair_InvMassReco"), "TH1");
@@ -234,7 +230,7 @@ void QA_Draw_Tracking_UpsilonOverview(
     f1S->SetParameter(3, 0.08);
     f1S->SetParameter(4, 50.0);
 
-    f1S->SetParNames("alpha1S","n1S","m1S","sigma1S","N1S");
+    f1S->SetParNames("alpha1S", "n1S", "m1S", "sigma1S", "N1S");
     f1S->SetLineColor(kRed);
     f1S->SetLineWidth(3);
     f1S->SetLineStyle(kSolid);
@@ -265,7 +261,7 @@ void QA_Draw_Tracking_UpsilonOverview(
     f1S_ref->SetParameter(3, 0.08);
     f1S_ref->SetParameter(4, 50.0);
 
-    f1S_ref->SetParNames("alpha1S","n1S","m1S","sigma1S","N1S");
+    f1S_ref->SetParNames("alpha1S", "n1S", "m1S", "sigma1S", "N1S");
     f1S_ref->SetLineColor(kRed);
     f1S_ref->SetLineWidth(3);
     f1S_ref->SetLineStyle(kSolid);
@@ -278,16 +274,16 @@ void QA_Draw_Tracking_UpsilonOverview(
     // cout << "f1S pars " <<  f1S->GetParameter(3) << "   " << f1S->GetParError(3) << endl;
 
     char resstr_3[500];
-    sprintf(resstr_3,"#sigma_{1S} = %.1f #pm %.1f MeV", f1S->GetParameter(3)*1000, f1S->GetParError(3)*1000);
-    TLatex *res_3 = new TLatex(0.2,0.75,resstr_3);
+    sprintf(resstr_3, "#sigma_{1S} = %.1f #pm %.1f MeV", f1S->GetParameter(3) * 1000, f1S->GetParError(3) * 1000);
+    TLatex *res_3 = new TLatex(0.2, 0.75, resstr_3);
     res_3->SetNDC();
     res_3->SetTextSize(0.05);
     res_3->SetTextAlign(13);
     res_3->Draw();
 
     char resstr_4[500];
-    sprintf(resstr_4,"#sigma_{1S,ref} = %.1f #pm %.1f MeV", f1S_ref->GetParameter(3)*1000, f1S_ref->GetParError(3)*1000);
-    TLatex *res_4 = new TLatex(0.2,0.7,resstr_4);
+    sprintf(resstr_4, "#sigma_{1S,ref} = %.1f #pm %.1f MeV", f1S_ref->GetParameter(3) * 1000, f1S_ref->GetParError(3) * 1000);
+    TLatex *res_4 = new TLatex(0.2, 0.7, resstr_4);
     res_4->SetNDC();
     res_4->SetTextSize(0.05);
     res_4->SetTextAlign(13);

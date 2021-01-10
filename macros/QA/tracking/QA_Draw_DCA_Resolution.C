@@ -91,7 +91,7 @@ void QA_Draw_DCA_Resolution(
     TH2 *h_QAG4SimulationTracking_DCArPhi = (TH2 *) qa_file_new->GetObjectChecked(
         prefix + "DCArPhi_pT_cuts", "TH2");
     assert(h_QAG4SimulationTracking_DCArPhi);
-    
+
     h_QAG4SimulationTracking_DCArPhi->Rebin2D(20, 1);
 
     // h_QAG4SimulationTracking_DCArPhi->Draw("colz");
@@ -104,14 +104,14 @@ void QA_Draw_DCA_Resolution(
       TH2 *h_QAG4SimulationTracking_DCArPhi = (TH2 *) qa_file_ref->GetObjectChecked(
           prefix + "DCArPhi_pT_cuts", "TH2");
       assert(h_QAG4SimulationTracking_DCArPhi);
-      
+
       h_QAG4SimulationTracking_DCArPhi->Rebin2D(20, 1);
 
       h_ratio_ref = FitProfile(h_QAG4SimulationTracking_DCArPhi);
       ge_QAG4SimulationTracking_DCArPhi->Draw("pe");
     }
 
-    ge_QAG4SimulationTracking_DCArPhi->SetTitle("DCA (r #phi, #geq 2MVTX, #geq 1INTT, #geq 20TPC) [cm]"); 
+    ge_QAG4SimulationTracking_DCArPhi->SetTitle("DCA (r #phi, #geq 2MVTX, #geq 1INTT, #geq 20TPC) [cm]");
     DrawReference(ge_QAG4SimulationTracking_DCArPhi, h_ratio_ref, true);
   }
 
@@ -127,12 +127,12 @@ void QA_Draw_DCA_Resolution(
     //TLine *l = new TLine(0.1, 0, 50, 0);
     //l->SetLineColor(kGray);
     //l->Draw();
-    HorizontalLine( gPad, 1 )->Draw();
+    HorizontalLine(gPad, 1)->Draw();
 
     TH2 *h_QAG4SimulationTracking_DCAZ = (TH2 *) qa_file_new->GetObjectChecked(
         prefix + "DCAZ_pT_cuts", "TH2");
     assert(h_QAG4SimulationTracking_DCAZ);
- 
+
     h_QAG4SimulationTracking_DCAZ->Rebin2D(40, 1);
 
     TGraphErrors *ge_QAG4SimulationTracking_DCAZ = FitProfile(h_QAG4SimulationTracking_DCAZ);
@@ -145,7 +145,7 @@ void QA_Draw_DCA_Resolution(
       TH2 *h_QAG4SimulationTracking_DCAZ = (TH2 *) qa_file_ref->GetObjectChecked(
           prefix + "DCAZ_pT_cuts", "TH2");
       assert(h_QAG4SimulationTracking_DCAZ);
-      
+
       h_QAG4SimulationTracking_DCAZ->Rebin2D(40, 1);
 
       h_ratio_ref = FitProfile(h_QAG4SimulationTracking_DCAZ);

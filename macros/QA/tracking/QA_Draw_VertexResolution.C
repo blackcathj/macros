@@ -72,7 +72,7 @@ void QA_Draw_VertexResolution(
   TCanvas *c1 = new TCanvas(TString("QA_Draw_Vertex_Resolution_x") + TString("_") + hist_name_prefix,
                             TString("QA_Draw_Vertex_Resolution_x") + TString("_") + hist_name_prefix,
                             1800, 1000);
-  c1->Divide(2,1);
+  c1->Divide(2, 1);
   int idx = 1;
   TPad *p;
 
@@ -100,21 +100,20 @@ void QA_Draw_VertexResolution(
         TString::Format(
             "%s_New_ProjX_%d_%d",
             h_new->GetName(), bin_start, bin_end));
-	// bin_start, bin_end);
+    // bin_start, bin_end);
 
     h_proj_new->SetTitle(TString(hist_name_prefix) + TString::Format(
                                                          ": %.1f - %.1f cm - gvz", gvz_range.first, gvz_range.second));
     h_proj_new->GetXaxis()->SetTitle(TString::Format(
         "Vertex Resolution (x) [cm]"));
-    h_proj_new->GetXaxis()->SetNdivisions(5,5);
-    h_proj_new->GetXaxis()->SetRangeUser(-0.002,0.002);
+    h_proj_new->GetXaxis()->SetNdivisions(5, 5);
+    h_proj_new->GetXaxis()->SetRangeUser(-0.002, 0.002);
 
-    f1 = new TF1("f1","gaus",-.002,.002);
+    f1 = new TF1("f1", "gaus", -.002, .002);
     h_proj_new->Fit(f1);
     fit = h_proj_new->GetFunction("f1");
     sigma = fit->GetParameter(2);
     sigma_unc = fit->GetParError(2);
-
 
     TH1 *h_proj_ref = nullptr;
     if (h_ref)
@@ -124,13 +123,13 @@ void QA_Draw_VertexResolution(
               TString::Format(
                   "%s_Ref_ProjX_%d_%d",
                   h_new->GetName(), bin_start, bin_end));
-              // bin_start, bin_end);
-      h_proj_ref->GetXaxis()->SetRangeUser(-10,10);
+      // bin_start, bin_end);
+      h_proj_ref->GetXaxis()->SetRangeUser(-10, 10);
     }
-    
+
     DrawReference(h_proj_new, h_proj_ref);
-    sprintf(resstr,"#sigma = %.5f #pm %.5f cm", sigma, sigma_unc);
-    res = new TLatex(0.325,0.825,resstr);
+    sprintf(resstr, "#sigma = %.5f #pm %.5f cm", sigma, sigma_unc);
+    res = new TLatex(0.325, 0.825, resstr);
     res->SetNDC();
     res->SetTextSize(0.05);
     res->SetTextAlign(13);
@@ -141,7 +140,6 @@ void QA_Draw_VertexResolution(
   gPad->SetLeftMargin(.2);
   h_new->GetYaxis()->SetTitleOffset(2);
   h_new->Draw("colz");
-  
 
   SaveCanvas(c1, TString(qa_file_name_new) + TString("_") + TString(c1->GetName()), true);
 
@@ -170,7 +168,7 @@ void QA_Draw_VertexResolution(
   TCanvas *c2 = new TCanvas(TString("QA_Draw_Vertex_Resolution_y") + TString("_") + hist_name_prefix,
                             TString("QA_Draw_Vertex_Resolution_y") + TString("_") + hist_name_prefix,
                             1800, 1000);
-  c2->Divide(2,1);
+  c2->Divide(2, 1);
   int idx2 = 1;
   TPad *p2;
 
@@ -201,13 +199,13 @@ void QA_Draw_VertexResolution(
         bin_start, bin_end);
 
     h_proj_new2->SetTitle(TString(hist_name_prefix) + TString::Format(
-                                                         ": %.1f - %.1f cm - gvz", gvz_range.first, gvz_range.second));
+                                                          ": %.1f - %.1f cm - gvz", gvz_range.first, gvz_range.second));
     h_proj_new2->GetXaxis()->SetTitle(TString::Format(
         "Vertex Resolution (y) [cm]"));
-    h_proj_new2->GetXaxis()->SetNdivisions(5,5);
-    h_proj_new2->GetXaxis()->SetRangeUser(-0.002,0.002);
-    
-    f2 = new TF1("f2","gaus",-.002,.002);
+    h_proj_new2->GetXaxis()->SetNdivisions(5, 5);
+    h_proj_new2->GetXaxis()->SetRangeUser(-0.002, 0.002);
+
+    f2 = new TF1("f2", "gaus", -.002, .002);
     h_proj_new2->Fit(f2);
     fit2 = h_proj_new2->GetFunction("f2");
     sigma2 = fit2->GetParameter(2);
@@ -223,10 +221,10 @@ void QA_Draw_VertexResolution(
                   h_new2->GetName(), bin_start, bin_end),
               bin_start, bin_end);
     }
-    
+
     DrawReference(h_proj_new2, h_proj_ref2);
-    sprintf(resstr2,"#sigma = %.5f #pm %.5f cm", sigma2, sigma_unc2);
-    res2 = new TLatex(0.325,0.825,resstr2);
+    sprintf(resstr2, "#sigma = %.5f #pm %.5f cm", sigma2, sigma_unc2);
+    res2 = new TLatex(0.325, 0.825, resstr2);
     res2->SetNDC();
     res2->SetTextSize(0.05);
     res2->SetTextAlign(13);
@@ -265,7 +263,7 @@ void QA_Draw_VertexResolution(
   TCanvas *c3 = new TCanvas(TString("QA_Draw_Vertex_Resolution_z") + TString("_") + hist_name_prefix,
                             TString("QA_Draw_Vertex_Resolution_z") + TString("_") + hist_name_prefix,
                             1800, 1000);
-  c3->Divide(2,1);
+  c3->Divide(2, 1);
   int idx3 = 1;
   TPad *p3;
 
@@ -296,13 +294,13 @@ void QA_Draw_VertexResolution(
         bin_start, bin_end);
 
     h_proj_new3->SetTitle(TString(hist_name_prefix) + TString::Format(
-                                                         ": %.1f - %.1f cm -gvz", gvz_range.first, gvz_range.second));
+                                                          ": %.1f - %.1f cm -gvz", gvz_range.first, gvz_range.second));
     h_proj_new3->GetXaxis()->SetTitle(TString::Format(
         "Vertex Resolution (z) [cm]"));
-    h_proj_new3->GetXaxis()->SetNdivisions(5,5);
-    h_proj_new3->GetXaxis()->SetRangeUser(-0.002,0.002);
-    
-    f3 = new TF1("f3","gaus",-.002,.002);
+    h_proj_new3->GetXaxis()->SetNdivisions(5, 5);
+    h_proj_new3->GetXaxis()->SetRangeUser(-0.002, 0.002);
+
+    f3 = new TF1("f3", "gaus", -.002, .002);
     h_proj_new3->Fit(f3);
     fit3 = h_proj_new3->GetFunction("f3");
     sigma3 = fit3->GetParameter(2);
@@ -318,10 +316,10 @@ void QA_Draw_VertexResolution(
                   h_new3->GetName(), bin_start, bin_end),
               bin_start, bin_end);
     }
-    
+
     DrawReference(h_proj_new3, h_proj_ref3);
-    sprintf(resstr3,"#sigma = %.5f #pm %.5f cm", sigma3, sigma_unc3);
-    res3 = new TLatex(0.325,0.825,resstr3);
+    sprintf(resstr3, "#sigma = %.5f #pm %.5f cm", sigma3, sigma_unc3);
+    res3 = new TLatex(0.325, 0.825, resstr3);
     res3->SetNDC();
     res3->SetTextSize(0.05);
     res3->SetTextAlign(13);
@@ -335,4 +333,3 @@ void QA_Draw_VertexResolution(
 
   SaveCanvas(c3, TString(qa_file_name_new) + TString("_") + TString(c3->GetName()), true);
 }
-

@@ -25,7 +25,8 @@ using namespace std;
 void QA_Draw_Tracking_TruthMatchingOverview(
     const char *hist_name_prefix = "QAG4SimulationTracking",
     const char *qa_file_name_new = "data/G4sPHENIX.root_qa.root",
-    const char *qa_file_name_ref = "data/G4sPHENIX.root_qa.root") {
+    const char *qa_file_name_ref = "data/G4sPHENIX.root_qa.root")
+{
   SetsPhenixStyle();
 
   TVirtualFitter::SetDefaultFitter("Minuit2");
@@ -36,7 +37,8 @@ void QA_Draw_Tracking_TruthMatchingOverview(
   assert(qa_file_new->IsOpen());
 
   TFile *qa_file_ref = NULL;
-  if (qa_file_name_ref) {
+  if (qa_file_name_ref)
+  {
     qa_file_ref = new TFile(qa_file_name_ref);
     assert(qa_file_ref->IsOpen());
   }
@@ -45,18 +47,20 @@ void QA_Draw_Tracking_TruthMatchingOverview(
   double Nevent_new = 1;
   double Nevent_ref = 1;
 
-  if (qa_file_new) {
+  if (qa_file_new)
+  {
     cout << "Open new QA file " << qa_file_new->GetName() << endl;
 
-    TH1 *h_norm = (TH1 *)qa_file_new->GetObjectChecked(
+    TH1 *h_norm = (TH1 *) qa_file_new->GetObjectChecked(
         prefix + TString("Normalization"), "TH1");
     assert(h_norm);
 
     Nevent_new = h_norm->GetBinContent(h_norm->GetXaxis()->FindBin("Event"));
   }
-  if (qa_file_ref) {
+  if (qa_file_ref)
+  {
     cout << "Open ref QA file " << qa_file_ref->GetName() << endl;
-    TH1 *h_norm = (TH1 *)qa_file_ref->GetObjectChecked(
+    TH1 *h_norm = (TH1 *) qa_file_ref->GetObjectChecked(
         prefix + TString("Normalization"), "TH1");
     assert(h_norm);
 
@@ -75,15 +79,15 @@ void QA_Draw_Tracking_TruthMatchingOverview(
   {
     static const int nrebin = 5;
 
-    p = (TPad *)c1->cd(idx++);
+    p = (TPad *) c1->cd(idx++);
     c1->Update();
     p->SetLogx();
     p->SetGridy();
 
     TH1 *h_pass =
-        (TH1 *)qa_file_new->GetObjectChecked(prefix + "nReco_pTGen", "TH1");
+        (TH1 *) qa_file_new->GetObjectChecked(prefix + "nReco_pTGen", "TH1");
     TH1 *h_norm =
-        (TH1 *)qa_file_new->GetObjectChecked(prefix + "nGen_pTGen", "TH1");
+        (TH1 *) qa_file_new->GetObjectChecked(prefix + "nGen_pTGen", "TH1");
     assert(h_norm);
     assert(h_pass);
 
@@ -97,11 +101,12 @@ void QA_Draw_Tracking_TruthMatchingOverview(
     h_ratio->GetYaxis()->SetRangeUser(-0, 1.);
 
     TH1 *h_ratio_ref = NULL;
-    if (qa_file_ref) {
+    if (qa_file_ref)
+    {
       TH1 *h_pass =
-          (TH1 *)qa_file_ref->GetObjectChecked(prefix + "nReco_pTGen", "TH1");
+          (TH1 *) qa_file_ref->GetObjectChecked(prefix + "nReco_pTGen", "TH1");
       TH1 *h_norm =
-          (TH1 *)qa_file_ref->GetObjectChecked(prefix + "nGen_pTGen", "TH1");
+          (TH1 *) qa_file_ref->GetObjectChecked(prefix + "nGen_pTGen", "TH1");
       assert(h_norm);
       assert(h_pass);
       h_norm->Rebin(nrebin);
@@ -117,15 +122,15 @@ void QA_Draw_Tracking_TruthMatchingOverview(
   {
     static const int nrebin = 3;
 
-    p = (TPad *)c1->cd(idx++);
+    p = (TPad *) c1->cd(idx++);
     c1->Update();
     // p->SetLogx();
     p->SetGridy();
 
     TH1 *h_pass =
-        (TH1 *)qa_file_new->GetObjectChecked(prefix + "nReco_etaGen", "TH1");
+        (TH1 *) qa_file_new->GetObjectChecked(prefix + "nReco_etaGen", "TH1");
     TH1 *h_norm =
-        (TH1 *)qa_file_new->GetObjectChecked(prefix + "nGen_etaGen", "TH1");
+        (TH1 *) qa_file_new->GetObjectChecked(prefix + "nGen_etaGen", "TH1");
     assert(h_norm);
     assert(h_pass);
 
@@ -139,11 +144,12 @@ void QA_Draw_Tracking_TruthMatchingOverview(
     h_ratio->GetYaxis()->SetRangeUser(-0, 1.);
 
     TH1 *h_ratio_ref = NULL;
-    if (qa_file_ref) {
+    if (qa_file_ref)
+    {
       TH1 *h_pass =
-          (TH1 *)qa_file_ref->GetObjectChecked(prefix + "nReco_etaGen", "TH1");
+          (TH1 *) qa_file_ref->GetObjectChecked(prefix + "nReco_etaGen", "TH1");
       TH1 *h_norm =
-          (TH1 *)qa_file_ref->GetObjectChecked(prefix + "nGen_etaGen", "TH1");
+          (TH1 *) qa_file_ref->GetObjectChecked(prefix + "nGen_etaGen", "TH1");
       assert(h_norm);
       assert(h_pass);
       h_norm->Rebin(nrebin);
@@ -157,7 +163,7 @@ void QA_Draw_Tracking_TruthMatchingOverview(
   }
 
   {
-    p = (TPad *)c1->cd(idx++);
+    p = (TPad *) c1->cd(idx++);
     c1->Update();
     //    p->SetLogx();
     TH1 *frame = p->DrawFrame(0, .9, 50, 1.1,
@@ -168,11 +174,11 @@ void QA_Draw_Tracking_TruthMatchingOverview(
     //TLine *l = new TLine(0, 1, 50, 1);
     //l->SetLineColor(kGray);
     //l->Draw();
-    HorizontalLine( gPad, 1 )->Draw();
+    HorizontalLine(gPad, 1)->Draw();
 
     TH2 *h_QAG4SimulationTracking_pTRecoGenRatio_pTGen =
-        (TH2 *)qa_file_new->GetObjectChecked(prefix + "pTRecoGenRatio_pTGen",
-                                             "TH2");
+        (TH2 *) qa_file_new->GetObjectChecked(prefix + "pTRecoGenRatio_pTGen",
+                                              "TH2");
     assert(h_QAG4SimulationTracking_pTRecoGenRatio_pTGen);
 
     h_QAG4SimulationTracking_pTRecoGenRatio_pTGen->Rebin2D(16, 1);
@@ -184,10 +190,11 @@ void QA_Draw_Tracking_TruthMatchingOverview(
         "Mean and sigma, p_{T,reco}/p_{T,truth}");
 
     TGraphErrors *h_ratio_ref = NULL;
-    if (qa_file_ref) {
+    if (qa_file_ref)
+    {
       TH2 *h_QAG4SimulationTracking_pTRecoGenRatio_pTGen =
-          (TH2 *)qa_file_ref->GetObjectChecked(prefix + "pTRecoGenRatio_pTGen",
-                                               "TH2");
+          (TH2 *) qa_file_ref->GetObjectChecked(prefix + "pTRecoGenRatio_pTGen",
+                                                "TH2");
       assert(h_QAG4SimulationTracking_pTRecoGenRatio_pTGen);
 
       h_QAG4SimulationTracking_pTRecoGenRatio_pTGen->Rebin2D(16, 1);

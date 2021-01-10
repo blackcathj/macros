@@ -39,65 +39,61 @@
 using namespace std;
 
 //! Divide canvas in a given number of pads, with a number of pads in both directions that match the width/height ratio of the canvas
-void DivideCanvas(TVirtualPad* p, int npads)
+void DivideCanvas(TVirtualPad *p, int npads)
 {
-  if( !p ) return;
-  if( !npads ) return;
-  const double ratio = double(p->GetWw())/p->GetWh();
-  Int_t columns = std::max( 1, int(std::sqrt( npads*ratio )) );
-  Int_t rows = std::max( 1, int(npads/columns) );
-  while( rows * columns < npads )
+  if (!p) return;
+  if (!npads) return;
+  const double ratio = double(p->GetWw()) / p->GetWh();
+  Int_t columns = std::max(1, int(std::sqrt(npads * ratio)));
+  Int_t rows = std::max(1, int(npads / columns));
+  while (rows * columns < npads)
   {
     columns++;
-    if( rows * columns < npads ) rows++;
+    if (rows * columns < npads) rows++;
   }
-  p->Divide( rows, columns );
+  p->Divide(rows, columns);
 }
 
 //! Draw a vertical line in a pad at given x coordinate
-TLine* VerticalLine( TVirtualPad* p, Double_t x )
+TLine *VerticalLine(TVirtualPad *p, Double_t x)
 {
-
   p->Update();
 
   Double_t yMin = p->GetUymin();
   Double_t yMax = p->GetUymax();
 
-  if( p->GetLogy() )
+  if (p->GetLogy())
   {
-    yMin = std::pow( 10, yMin );
-    yMax = std::pow( 10, yMax );
+    yMin = std::pow(10, yMin);
+    yMax = std::pow(10, yMax);
   }
 
-  TLine *line = new TLine( x, yMin, x, yMax );
-  line->SetLineStyle( 2 );
-  line->SetLineWidth( 1 );
-  line->SetLineColor( 1 );
+  TLine *line = new TLine(x, yMin, x, yMax);
+  line->SetLineStyle(2);
+  line->SetLineWidth(1);
+  line->SetLineColor(1);
   return line;
-
 }
 
 //! Draw a horizontal line in a pad at given x coordinate
-TLine* HorizontalLine( TVirtualPad* p, Double_t y )
+TLine *HorizontalLine(TVirtualPad *p, Double_t y)
 {
-
   p->Update();
 
   Double_t xMin = p->GetUxmin();
   Double_t xMax = p->GetUxmax();
 
-  if( p->GetLogx() )
+  if (p->GetLogx())
   {
-    xMin = std::pow( 10, xMin );
-    xMax = std::pow( 10, xMax );
+    xMin = std::pow(10, xMin);
+    xMax = std::pow(10, xMax);
   }
 
-  TLine *line = new TLine( xMin, y, xMax, y );
-  line->SetLineStyle( 2 );
-  line->SetLineWidth( 1 );
-  line->SetLineColor( 1 );
+  TLine *line = new TLine(xMin, y, xMax, y);
+  line->SetLineStyle(2);
+  line->SetLineWidth(1);
+  line->SetLineColor(1);
   return line;
-
 }
 
 //! Service function to SaveCanvas()
@@ -250,14 +246,14 @@ double DrawReference(TH1 *hnew, TH1 *href, bool draw_href_error = false)
     legend->Draw();
     legend = new TLegend(0.3, .86, 1, .93, NULL, "NB NDC");
     TLegendEntry *le = legend->AddEntry(hnew, Form("New: KS-Test P=%.3f", ks_test), "lpe");
-    if (ks_test>=1)
-      le->SetTextColor(kBlue+1);
-    else if (ks_test>=.2)
-      le->SetTextColor(kGreen+2);
-    else if (ks_test>=.05)
-      le->SetTextColor(kYellow+1);
+    if (ks_test >= 1)
+      le->SetTextColor(kBlue + 1);
+    else if (ks_test >= .2)
+      le->SetTextColor(kGreen + 2);
+    else if (ks_test >= .05)
+      le->SetTextColor(kYellow + 1);
     else
-      le->SetTextColor(kRed+1);
+      le->SetTextColor(kRed + 1);
     legend->Draw();
   }
   else
@@ -316,7 +312,6 @@ void DrawReference(TGraph *hnew, TGraph *href, bool draw_href_error = true)
     hnew->Draw("p e");  // over lay data points
   }
 
-
   // ---------------------------------
   // now, make summary header
   // ---------------------------------
@@ -338,7 +333,6 @@ void DrawReference(TGraph *hnew, TGraph *href, bool draw_href_error = true)
     TLegend *legend = new TLegend(0, .93, 0, 1, hnew->GetTitle(), "NB NDC");
     legend->Draw();
   }
-
 }
 
 //! Fit for resolution of TH2F

@@ -25,7 +25,8 @@ using namespace std;
 void QA_Draw_nVertex(
     const char *hist_name_prefix = "QAG4SimulationVertex",
     const char *qa_file_name_new = "data/G4sPHENIX.root_qa.root",
-    const char *qa_file_name_ref = "data/G4sPHENIX.root_qa.root") {
+    const char *qa_file_name_ref = "data/G4sPHENIX.root_qa.root")
+{
   SetsPhenixStyle();
 
   TVirtualFitter::SetDefaultFitter("Minuit2");
@@ -36,7 +37,8 @@ void QA_Draw_nVertex(
   assert(qa_file_new->IsOpen());
 
   TFile *qa_file_ref = NULL;
-  if (qa_file_name_ref) {
+  if (qa_file_name_ref)
+  {
     qa_file_ref = new TFile(qa_file_name_ref);
     assert(qa_file_ref->IsOpen());
   }
@@ -53,13 +55,13 @@ void QA_Draw_nVertex(
   {
     static const int nrebin = 1;
 
-    p = (TPad *)c1->cd(idx++);
+    p = (TPad *) c1->cd(idx++);
     c1->Update();
     // p->SetLogx();
     p->SetGridy();
 
     TH1 *h_pass =
-        (TH1 *)qa_file_new->GetObjectChecked(prefix + "gntracks", "TH1");
+        (TH1 *) qa_file_new->GetObjectChecked(prefix + "gntracks", "TH1");
     assert(h_pass);
 
     h_pass->Rebin(nrebin);
@@ -69,9 +71,10 @@ void QA_Draw_nVertex(
     // h_pass->GetYaxis()->SetRangeUser(-0, 1.);
 
     TH1 *h_ref = NULL;
-    if (qa_file_ref) {
+    if (qa_file_ref)
+    {
       TH1 *h_ref =
-          (TH1 *)qa_file_ref->GetObjectChecked(prefix + "gntracks", "TH1");
+          (TH1 *) qa_file_ref->GetObjectChecked(prefix + "gntracks", "TH1");
       assert(h_pass);
 
       h_ref->Rebin(nrebin);
@@ -84,14 +87,14 @@ void QA_Draw_nVertex(
 
   {
     static const int nrebin = 1;
-    
-    p = (TPad *)c1->cd(idx++);
+
+    p = (TPad *) c1->cd(idx++);
     c1->Update();
     // p->SetLogx();
     p->SetGridy();
 
     TH1 *h_pass =
-        (TH1 *)qa_file_new->GetObjectChecked(prefix + "gntracksmaps", "TH1");
+        (TH1 *) qa_file_new->GetObjectChecked(prefix + "gntracksmaps", "TH1");
     assert(h_pass);
 
     h_pass->Rebin(nrebin);
@@ -101,9 +104,10 @@ void QA_Draw_nVertex(
     // h_pass->GetYaxis()->SetRangeUser(-0, 1.);
 
     TH1 *h_ref = NULL;
-    if (qa_file_ref) {
+    if (qa_file_ref)
+    {
       TH1 *h_ref =
-          (TH1 *)qa_file_ref->GetObjectChecked(prefix + "gntracksmaps", "TH1");
+          (TH1 *) qa_file_ref->GetObjectChecked(prefix + "gntracksmaps", "TH1");
       assert(h_pass);
 
       h_ref->Rebin(nrebin);
@@ -116,14 +120,14 @@ void QA_Draw_nVertex(
 
   {
     static const int nrebin = 1;
-    
-    p = (TPad *)c1->cd(idx++);
+
+    p = (TPad *) c1->cd(idx++);
     c1->Update();
     // p->SetLogx();
     p->SetGridy();
 
     TH1 *h_pass =
-        (TH1 *)qa_file_new->GetObjectChecked(prefix + "ntracks", "TH1");
+        (TH1 *) qa_file_new->GetObjectChecked(prefix + "ntracks", "TH1");
     assert(h_pass);
 
     h_pass->Rebin(nrebin);
@@ -133,9 +137,10 @@ void QA_Draw_nVertex(
     // h_pass->GetYaxis()->SetRangeUser(-0, 1.);
 
     TH1 *h_ref = NULL;
-    if (qa_file_ref) {
+    if (qa_file_ref)
+    {
       TH1 *h_ref =
-          (TH1 *)qa_file_ref->GetObjectChecked(prefix + "ntracks", "TH1");
+          (TH1 *) qa_file_ref->GetObjectChecked(prefix + "ntracks", "TH1");
       assert(h_pass);
 
       h_ref->Rebin(nrebin);
@@ -148,14 +153,14 @@ void QA_Draw_nVertex(
 
   {
     static const int nrebin = 1;
-    
-    p = (TPad *)c1->cd(idx++);
+
+    p = (TPad *) c1->cd(idx++);
     c1->Update();
     // p->SetLogx();
     p->SetGridy();
 
     TH1 *h_pass =
-        (TH1 *)qa_file_new->GetObjectChecked(prefix + "ntracks_cuts", "TH1");
+        (TH1 *) qa_file_new->GetObjectChecked(prefix + "ntracks_cuts", "TH1");
     assert(h_pass);
 
     h_pass->Rebin(nrebin);
@@ -165,9 +170,10 @@ void QA_Draw_nVertex(
     // h_pass->GetYaxis()->SetRangeUser(-0, 1.);
 
     TH1 *h_ref = NULL;
-    if (qa_file_ref) {
+    if (qa_file_ref)
+    {
       TH1 *h_ref =
-          (TH1 *)qa_file_ref->GetObjectChecked(prefix + "ntracks_cuts", "TH1");
+          (TH1 *) qa_file_ref->GetObjectChecked(prefix + "ntracks_cuts", "TH1");
       assert(h_pass);
 
       h_ref->Rebin(nrebin);

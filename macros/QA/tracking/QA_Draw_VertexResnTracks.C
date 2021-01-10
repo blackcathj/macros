@@ -137,8 +137,8 @@ void QA_Draw_VertexResnTracks(
     h_proj_new->Rebin(5);
     h_proj_new->SetTitle(TString(hist_name_prefix) + TString::Format(
                                                          ": %.1f - %.1f tracks", ntracks_range.first, ntracks_range.second));
-    h_proj_new->GetXaxis()->SetNdivisions(5,5);
-    f1 = new TF1("f1","gaus",-.005,.005);
+    h_proj_new->GetXaxis()->SetNdivisions(5, 5);
+    f1 = new TF1("f1", "gaus", -.005, .005);
     h_proj_new->Fit(f1);
     fit = h_proj_new->GetFunction("f1");
     sigma = fit->GetParameter(2);
@@ -156,16 +156,16 @@ void QA_Draw_VertexResnTracks(
               bin_start, bin_end);
       //if (ntracks_range.first < 2.0)
       //{
-	//h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
-	//h_proj_ref->Rebin(5);
+      //h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
+      //h_proj_ref->Rebin(5);
       //}
       h_proj_ref->Rebin(5);
     }
-    
+
     DrawReference(h_proj_new, h_proj_ref);
 
-    sprintf(resstr,"#sigma = %.5f #pm %.5f cm", sigma, sigma_unc);
-    res = new TLatex(0.325,0.825,resstr);
+    sprintf(resstr, "#sigma = %.5f #pm %.5f cm", sigma, sigma_unc);
+    res = new TLatex(0.325, 0.825, resstr);
     res->SetNDC();
     res->SetTextSize(0.05);
     res->SetTextAlign(13);
@@ -179,7 +179,6 @@ void QA_Draw_VertexResnTracks(
   pt->Draw();
   */
   SaveCanvas(c1, TString(qa_file_name_new) + TString("_") + TString(c1->GetName()), true);
-
 
   TH2 *h_new2 = (TH2 *) qa_file_new->GetObjectChecked(
       prefix + TString("vyRes_ntracks"), "TH2");
@@ -252,8 +251,8 @@ void QA_Draw_VertexResnTracks(
     h_proj_new->Rebin(5);
     h_proj_new->SetTitle(TString(hist_name_prefix) + TString::Format(
                                                          ": %.1f - %.1f tracks", ntracks_range2.first, ntracks_range2.second));
-    h_proj_new->GetXaxis()->SetNdivisions(5,5);
-    f2 = new TF1("f2","gaus",-.005,.005);
+    h_proj_new->GetXaxis()->SetNdivisions(5, 5);
+    f2 = new TF1("f2", "gaus", -.005, .005);
     h_proj_new->Fit(f2);
     fit2 = h_proj_new->GetFunction("f2");
     sigma2 = fit2->GetParameter(2);
@@ -271,16 +270,16 @@ void QA_Draw_VertexResnTracks(
               bin_start, bin_end);
       //if (ntracks_range2.first < 2.0)
       //{
-	//h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
-	//h_proj_ref->Rebin(5);
+      //h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
+      //h_proj_ref->Rebin(5);
       //}
       h_proj_ref->Rebin(5);
     }
-    
+
     DrawReference(h_proj_new, h_proj_ref);
 
-    sprintf(resstr2,"#sigma = %.5f #pm %.5f cm", sigma2, sigma_unc2);
-    res2 = new TLatex(0.325,0.825,resstr2);
+    sprintf(resstr2, "#sigma = %.5f #pm %.5f cm", sigma2, sigma_unc2);
+    res2 = new TLatex(0.325, 0.825, resstr2);
     res2->SetNDC();
     res2->SetTextSize(0.05);
     res2->SetTextAlign(13);
@@ -360,8 +359,8 @@ void QA_Draw_VertexResnTracks(
     h_proj_new->Rebin(5);
     h_proj_new->SetTitle(TString(hist_name_prefix) + TString::Format(
                                                          ": %.1f - %.1f tracks", ntracks_range3.first, ntracks_range3.second));
-    h_proj_new->GetXaxis()->SetNdivisions(5,5);
-    f3 = new TF1("f3","gaus",-.005,.005);
+    h_proj_new->GetXaxis()->SetNdivisions(5, 5);
+    f3 = new TF1("f3", "gaus", -.005, .005);
     h_proj_new->Fit(f3);
     fit3 = h_proj_new->GetFunction("f3");
     sigma3 = fit3->GetParameter(2);
@@ -379,15 +378,15 @@ void QA_Draw_VertexResnTracks(
               bin_start, bin_end);
       //if (ntracks_range2.first < 2.0)
       //{
-	//h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
-	//h_proj_ref->Rebin(5);
+      //h_proj_ref->GetXaxis()->SetRangeUser(-.05,.05);
+      //h_proj_ref->Rebin(5);
       //}
       h_proj_ref->Rebin(5);
     }
-    
+
     DrawReference(h_proj_new, h_proj_ref);
-    sprintf(resstr3,"#sigma = %.5f #pm %.5f cm", sigma3, sigma_unc3);
-    res3 = new TLatex(0.325,0.825,resstr);
+    sprintf(resstr3, "#sigma = %.5f #pm %.5f cm", sigma3, sigma_unc3);
+    res3 = new TLatex(0.325, 0.825, resstr);
     res3->SetNDC();
     res3->SetTextSize(0.05);
     res3->SetTextAlign(13);

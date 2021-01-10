@@ -132,7 +132,7 @@ void QA_Draw_Tracking_pTRatio(
     h_proj_new->GetXaxis()->SetTitle(TString::Format(
         "Reco p_{T}/Truth p_{T}"));
 
-    f1 = new TF1("f1","gaus",-.85,1.15);
+    f1 = new TF1("f1", "gaus", -.85, 1.15);
     h_proj_new->Fit(f1);
     fit = h_proj_new->GetFunction("f1");
     sigma = fit->GetParameter(2);
@@ -148,8 +148,8 @@ void QA_Draw_Tracking_pTRatio(
               bin_start, bin_end);
 
     DrawReference(h_proj_new, h_proj_ref);
-    sprintf(resstr,"#sigma = %.5f #pm %.5f", sigma, sigma_unc);
-    res = new TLatex(0.325,0.825,resstr);
+    sprintf(resstr, "#sigma = %.5f #pm %.5f", sigma, sigma_unc);
+    res = new TLatex(0.325, 0.825, resstr);
     res->SetNDC();
     res->SetTextSize(0.05);
     res->SetTextAlign(13);
