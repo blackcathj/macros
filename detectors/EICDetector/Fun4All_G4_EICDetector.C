@@ -26,8 +26,8 @@
 R__LOAD_LIBRARY(libfun4all.so)
 
 int Fun4All_G4_EICDetector(
-    const int nEvents = 1,
-    const string &inputFile = "data/hepmc_test.dat",
+    const int nEvents = 100000,
+    const string &inputFile = "data/hepmc_test.lst",
     const string &outputFile = "G4EICDetector.root",
     const string &embed_input_file = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
     const int skip = 0,
@@ -106,7 +106,8 @@ int Fun4All_G4_EICDetector(
   // HepMC2 files
   Input::HEPMC = true;
   Input::VERBOSITY = 0;
-  INPUTHEPMC::filename = inputFile;
+//  INPUTHEPMC::filename = inputFile;
+  INPUTHEPMC::listfile= inputFile;
 
   //-----------------
   // Initialize the selected Input/Event generation
@@ -177,8 +178,18 @@ int Fun4All_G4_EICDetector(
 
   if (Input::HEPMC)
   {
-    INPUTMANAGER::HepMCInputManager->Verbosity(3);
-    INPUTMANAGER::HepMCInputManager->PHHepMCGenHelper_Verbosity(3);
+//    INPUTMANAGER::HepMCInputManager->Verbosity(3);
+//    INPUTMANAGER::HepMCInputManager->PHHepMCGenHelper_Verbosity(3);
+
+    //INPUTMANAGER::HepMCInputManager->set_beam_direction_theta_phi(1e-3,0,M_PI - 1e-3,0); //2mrad x-ing of sPHENIX
+
+    INPUTMANAGER::HepMCInputManager->set_beam_direction_theta_phi(25e-3,0,M_PI ,0); //25mrad x-ing of EIC
+    INPUTMANAGER::HepMCInputManager->set_beam_angular_divergence_xy(
+        132e-6, 253e-6,// proton beam divergence at high divergence tune, EIC CDR Table 3.12
+        220e-6, 220e-6//max electron beam divergence
+    );
+    //INPUTMANAGER::HepMCInputManager->set_beam_direction_theta_phi(.3,0,M_PI -.3,M_PI);
+
     //INPUTMANAGER::HepMCInputManager->set_vertex_distribution_width(100e-4, 100e-4, 30, 0);  //optional collision smear in space, time
                                                                                             //    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_mean(0,0,0,0);//optional collision central position shift in space, time
     // //optional choice of vertex distribution function in space, time
@@ -206,7 +217,7 @@ int Fun4All_G4_EICDetector(
   Enable::DSTOUT_COMPRESS = false;  // Compress DST files
 
   //Option to convert DST to human command readable TTree for quick poke around the outputs
-  Enable::DSTREADER = false;
+  Enable::DSTREADER = true;
 
   // turn the display on (default off)
   Enable::DISPLAY = false;
