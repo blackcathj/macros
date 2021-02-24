@@ -74,7 +74,7 @@ int Fun4All_G4_EICDetector(
   //INPUTEMBED::listfile[0] = embed_input_file;
 
   // Use Pythia 8
-  //  Input::PYTHIA8 = true;
+  Input::PYTHIA8 = true;
 
   // Use Pythia 6
   //   Input::PYTHIA6 = true;
@@ -104,7 +104,7 @@ int Fun4All_G4_EICDetector(
   INPUTREADEIC::filename = inputFile;
 
   // HepMC2 files
-  Input::HEPMC = true;
+  //Input::HEPMC = true;
   Input::VERBOSITY = 0;
 //  INPUTHEPMC::filename = inputFile;
   INPUTHEPMC::listfile= inputFile;
@@ -169,6 +169,16 @@ int Fun4All_G4_EICDetector(
   if (Input::PYTHIA6)
   {
     INPUTGENERATOR::Pythia6->set_config_file(string(getenv("CALIBRATIONROOT")) + "/Generators/phpythia6_ep.cfg");
+  }
+
+  if (Input::PYTHIA8)
+  {
+    INPUTGENERATOR::Pythia8->set_config_file("phpythia8_ep.cfg");
+    INPUTGENERATOR::Pythia8->set_beam_direction_theta_phi(25e-3,0,M_PI ,0); //25mrad x-ing of EIC
+    INPUTGENERATOR::Pythia8->set_beam_angular_divergence_xy(
+        132e-6, 253e-6,// proton beam divergence at high divergence tune, EIC CDR Table 3.12
+        220e-6, 220e-6//max electron beam divergence
+    );
   }
 
   //--------------
