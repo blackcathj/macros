@@ -27,7 +27,7 @@ R__LOAD_LIBRARY(libfun4all.so)
 
 int Fun4All_G4_EICDetector(
     const int nEvents = 1,
-    const string &inputFile = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
+    const string &inputFile = "data/hepmc_test.dat",
     const string &outputFile = "G4EICDetector.root",
     const string &embed_input_file = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
     const int skip = 0,
@@ -88,7 +88,7 @@ int Fun4All_G4_EICDetector(
   // Input::SIMPLE_VERBOSITY = 1;
 
   // Particle gun (same particles in always the same direction)
-  Input::GUN = true;
+  // Input::GUN = true;
   // Input::GUN_NUMBER = 3; // if you need 3 of them
   // Input::GUN_VERBOSITY = 0;
 
@@ -104,7 +104,7 @@ int Fun4All_G4_EICDetector(
   INPUTREADEIC::filename = inputFile;
 
   // HepMC2 files
-  //  Input::HEPMC = true;
+  Input::HEPMC = true;
   Input::VERBOSITY = 0;
   INPUTHEPMC::filename = inputFile;
 
@@ -161,7 +161,7 @@ int Fun4All_G4_EICDetector(
   // add the settings for other with [1], next with [2]...
   if (Input::GUN)
   {
-    INPUTGENERATOR::Gun[0]->AddParticle("e-", 0, 0, -20);
+    INPUTGENERATOR::Gun[0]->AddParticle("e-", 0, 10, -20);
     INPUTGENERATOR::Gun[0]->set_vtx(0, 0, 0);
   }
   // pythia6
@@ -177,10 +177,12 @@ int Fun4All_G4_EICDetector(
 
   if (Input::HEPMC)
   {
-    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_width(100e-4, 100e-4, 30, 0);  //optional collision smear in space, time
+    INPUTMANAGER::HepMCInputManager->Verbosity(3);
+    INPUTMANAGER::HepMCInputManager->PHHepMCGenHelper_Verbosity(3);
+    //INPUTMANAGER::HepMCInputManager->set_vertex_distribution_width(100e-4, 100e-4, 30, 0);  //optional collision smear in space, time
                                                                                             //    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_mean(0,0,0,0);//optional collision central position shift in space, time
     // //optional choice of vertex distribution function in space, time
-    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_function(PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus);
+    //INPUTMANAGER::HepMCInputManager->set_vertex_distribution_function(PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus);
     //! embedding ID for the event
     //! positive ID is the embedded event of interest, e.g. jetty event from pythia
     //! negative IDs are backgrounds, .e.g out of time pile up collisions
@@ -204,7 +206,7 @@ int Fun4All_G4_EICDetector(
   Enable::DSTOUT_COMPRESS = false;  // Compress DST files
 
   //Option to convert DST to human command readable TTree for quick poke around the outputs
-  Enable::DSTREADER = true;
+  Enable::DSTREADER = false;
 
   // turn the display on (default off)
   Enable::DISPLAY = false;
@@ -218,12 +220,12 @@ int Fun4All_G4_EICDetector(
   //  Enable::VERBOSITY = 1;
 
   //  Enable::BBC = true;
-  Enable::BBCFAKE = true; // Smeared vtx and t0, use if you don't want real BBC in simulation
+  // Enable::BBCFAKE = true; // Smeared vtx and t0, use if you don't want real BBC in simulation
 
   // whether to simulate the Be section of the beam pipe
   Enable::PIPE = true;
   // EIC beam pipe extension beyond the Be-section:
-  /G4PIPE::use_forward_pipes = true;
+  G4PIPE::use_forward_pipes = true;
 
   Enable::EGEM = true;
   Enable::FGEM = true;
@@ -235,7 +237,7 @@ int Fun4All_G4_EICDetector(
   Enable::TPC = true;
   //  Enable::TPC_ENDCAP = true;
 
-  Enable::TRACKING = true;
+  Enable::TRACKING = false;
   Enable::TRACKING_EVAL = Enable::TRACKING && true;
   G4TRACKING::DISPLACED_VERTEX = false;  // this option exclude vertex in the track fitting and use RAVE to reconstruct primary and 2ndary vertexes
                                          // projections to calorimeters
