@@ -26,7 +26,7 @@
 R__LOAD_LIBRARY(libfun4all.so)
 
 int Fun4All_G4_EICDetector(
-    const int nEvents = 100000,
+    const int nEvents = 1,
     const string &inputFile = "data/hepmc_test.lst",
     const string &outputFile = "G4EICDetector.root",
     const string &embed_input_file = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
@@ -47,7 +47,7 @@ int Fun4All_G4_EICDetector(
   // PHRandomSeed() which reads /dev/urandom to get its seed
   // if the RANDOMSEED flag is set its value is taken as initial seed
   // which will produce identical results so you can debug your code
-  rc->set_IntFlag("RANDOMSEED", 12345);
+  rc->set_IntFlag("RANDOMSEED", 3);
 
   //===============
   // Input options
@@ -74,10 +74,10 @@ int Fun4All_G4_EICDetector(
   //INPUTEMBED::listfile[0] = embed_input_file;
 
   // Use Pythia 8
-  Input::PYTHIA8 = true;
+  // Input::PYTHIA8 = false;
 
   // Use Pythia 6
-  //   Input::PYTHIA6 = true;
+  Input::PYTHIA6 = true;
 
   // Use Sartre
   //   Input::SARTRE = true;
@@ -168,7 +168,13 @@ int Fun4All_G4_EICDetector(
   // pythia6
   if (Input::PYTHIA6)
   {
-    INPUTGENERATOR::Pythia6->set_config_file(string(getenv("CALIBRATIONROOT")) + "/Generators/phpythia6_ep.cfg");
+    INPUTGENERATOR::Pythia6->set_config_file(string(getenv("CALIBRATIONROOT")) + "/Generators/phpythia6_ep_MinPartonP20GeV.cfg");
+    INPUTGENERATOR::Pythia6->set_beam_direction_theta_phi(25e-3,0,M_PI ,0); //25mrad x-ing of EIC
+    INPUTGENERATOR::Pythia6->set_beam_angular_divergence_xy(
+        132e-6, 253e-6,// proton beam divergence at high divergence tune, EIC CDR Table 3.12
+        220e-6, 220e-6//max electron beam divergence
+    );
+    INPUTGENERATOR::Pythia6->PHHepMCGenHelper_Verbosity(3);
   }
 
   if (Input::PYTHIA8)
@@ -230,7 +236,7 @@ int Fun4All_G4_EICDetector(
   Enable::DSTREADER = true;
 
   // turn the display on (default off)
-  Enable::DISPLAY = false;
+  Enable::DISPLAY = true;
 
   //======================
   // What to run
@@ -258,7 +264,7 @@ int Fun4All_G4_EICDetector(
   Enable::TPC = true;
   //  Enable::TPC_ENDCAP = true;
 
-  Enable::TRACKING = false;
+  Enable::TRACKING = true;
   Enable::TRACKING_EVAL = Enable::TRACKING && true;
   G4TRACKING::DISPLACED_VERTEX = false;  // this option exclude vertex in the track fitting and use RAVE to reconstruct primary and 2ndary vertexes
                                          // projections to calorimeters
@@ -266,7 +272,7 @@ int Fun4All_G4_EICDetector(
   G4TRACKING::PROJECTION_FEMC = false;
   G4TRACKING::PROJECTION_FHCAL = false;
 
-  Enable::CEMC = false;
+  Enable::CEMC = true;
   //  Enable::CEMC_ABSORBER = true;
   Enable::CEMC_CELL = Enable::CEMC && true;
   Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
@@ -280,9 +286,9 @@ int Fun4All_G4_EICDetector(
   Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
   Enable::HCALIN_EVAL = Enable::HCALIN_CLUSTER && true;
 
-  Enable::MAGNET = false;
+  Enable::MAGNET = true;
 
-  Enable::HCALOUT = false;
+  Enable::HCALOUT = true;
   //  Enable::HCALOUT_ABSORBER = true;
   Enable::HCALOUT_CELL = Enable::HCALOUT && true;
   Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
@@ -290,26 +296,26 @@ int Fun4All_G4_EICDetector(
   Enable::HCALOUT_EVAL = Enable::HCALOUT_CLUSTER && true;
 
   // EICDetector geometry - barrel
-  Enable::DIRC = false;
+  Enable::DIRC = true;
 
   // EICDetector geometry - 'hadron' direction
   Enable::RICH = true;
   Enable::AEROGEL = true;
 
-  Enable::FEMC = false;
+  Enable::FEMC = true;
   //  Enable::FEMC_ABSORBER = true;
   Enable::FEMC_TOWER = Enable::FEMC && true;
   Enable::FEMC_CLUSTER = Enable::FEMC_TOWER && true;
   Enable::FEMC_EVAL = Enable::FEMC_CLUSTER && true;
 
-  Enable::FHCAL = false;
+  Enable::FHCAL = true;
   //  Enable::FHCAL_ABSORBER = true;
   Enable::FHCAL_TOWER = Enable::FHCAL && true;
   Enable::FHCAL_CLUSTER = Enable::FHCAL_TOWER && true;
   Enable::FHCAL_EVAL = Enable::FHCAL_CLUSTER && true;
 
   // EICDetector geometry - 'electron' direction
-  Enable::EEMC = false;
+  Enable::EEMC = true;
   Enable::EEMC_TOWER = Enable::EEMC && true;
   Enable::EEMC_CLUSTER = Enable::EEMC_TOWER && true;
   Enable::EEMC_EVAL = Enable::EEMC_CLUSTER && true;

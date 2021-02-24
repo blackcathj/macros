@@ -29,8 +29,11 @@
 /vis/open OGL 1200x900-0+0
 # increase display limit for more complex detectors
 /vis/ogl/set/displayListLimit 500000
-/vis/viewer/set/viewpointThetaPhi 240 -10
-/vis/viewer/addCutawayPlane 0 0 0 m 1 0 0
+/vis/viewer/set/upThetaPhi 90 0
+/vis/viewer/set/viewpointThetaPhi 100 100
+/vis/viewer/addCutawayPlane 0 0 0 m 0 -1 0
+#/vis/viewer/set/viewpointThetaPhi 180 0
+#/vis/viewer/addCutawayPlane 0 0 -175 cm 0 0 -1
 # our world is 4x4 meters, the detector is about 1m across
 # zooming by 4 makes it fill the display
 /vis/viewer/zoom 1.5
@@ -68,7 +71,7 @@
 # remove low energy stuff
 /vis/filtering/trajectories/create/attributeFilter
 /vis/filtering/trajectories/attributeFilter-0/setAttribute IMag
-/vis/filtering/trajectories/attributeFilter-0/addInterval 2 MeV 1000 GeV
+/vis/filtering/trajectories/attributeFilter-0/addInterval 200 MeV 1000 GeV
 #
 /vis/scene/endOfEventAction accumulate
 #
