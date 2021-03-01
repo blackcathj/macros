@@ -184,16 +184,16 @@ int Fun4All_G4_EICDetector(
     //INPUTMANAGER::HepMCInputManager->set_beam_direction_theta_phi(1e-3,0,M_PI - 1e-3,0); //2mrad x-ing of sPHENIX
 
     INPUTMANAGER::HepMCInputManager->set_beam_direction_theta_phi(25e-3,0,M_PI ,0); //25mrad x-ing of EIC
-    INPUTMANAGER::HepMCInputManager->set_beam_angular_divergence_xy(
+    INPUTMANAGER::HepMCInputManager->set_beam_angular_divergence_hv(
         132e-6, 253e-6,// proton beam divergence at high divergence tune, EIC CDR Table 3.12
         220e-6, 220e-6//max electron beam divergence
     );
     //INPUTMANAGER::HepMCInputManager->set_beam_direction_theta_phi(.3,0,M_PI -.3,M_PI);
 
-    //INPUTMANAGER::HepMCInputManager->set_vertex_distribution_width(100e-4, 100e-4, 30, 0);  //optional collision smear in space, time
+    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_width(100e-4, 100e-4, 30, 0);  //optional collision smear in space, time
                                                                                             //    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_mean(0,0,0,0);//optional collision central position shift in space, time
     // //optional choice of vertex distribution function in space, time
-    //INPUTMANAGER::HepMCInputManager->set_vertex_distribution_function(PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus);
+    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_function(PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus);
     //! embedding ID for the event
     //! positive ID is the embedded event of interest, e.g. jetty event from pythia
     //! negative IDs are backgrounds, .e.g out of time pile up collisions
