@@ -26,8 +26,8 @@
 R__LOAD_LIBRARY(libfun4all.so)
 
 int Fun4All_G4_EICDetector(
-    const int nEvents = 1,
-    const string &inputFile = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
+    const int nEvents = 10,
+    const string &inputFile = "data/hepmc_test.lst",
     const string &outputFile = "G4EICDetector.root",
     const string &embed_input_file = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
     const int skip = 0,
@@ -37,7 +37,7 @@ int Fun4All_G4_EICDetector(
   // Fun4All server
   //---------------
   Fun4AllServer *se = Fun4AllServer::instance();
-  se->Verbosity(0);
+  se->Verbosity(1);
   //Opt to print all random seed used for debugging reproducibility. Comment out to reduce stdout prints.
   //PHRandomSeed::Verbosity(1);
 
@@ -47,7 +47,7 @@ int Fun4All_G4_EICDetector(
   // PHRandomSeed() which reads /dev/urandom to get its seed
   // if the RANDOMSEED flag is set its value is taken as initial seed
   // which will produce identical results so you can debug your code
-  // rc->set_IntFlag("RANDOMSEED", 12345);
+  rc->set_IntFlag("RANDOMSEED", 12345);
 
   //===============
   // Input options
@@ -83,7 +83,7 @@ int Fun4All_G4_EICDetector(
   //   Input::SARTRE = true;
 
   // Simple multi particle generator in eta/phi/pt ranges
-  Input::SIMPLE = true;
+  // Input::SIMPLE = true;
   // Input::SIMPLE_NUMBER = 2; // if you need 2 of them
   // Input::SIMPLE_VERBOSITY = 1;
 
@@ -104,9 +104,10 @@ int Fun4All_G4_EICDetector(
   INPUTREADEIC::filename = inputFile;
 
   // HepMC2 files
-  //  Input::HEPMC = true;
+  Input::HEPMC = true;
   Input::VERBOSITY = 0;
-  INPUTHEPMC::filename = inputFile;
+//  INPUTHEPMC::filename = inputFile;
+  INPUTHEPMC::listfile= inputFile;
 
   //-----------------
   // Initialize the selected Input/Event generation
@@ -161,7 +162,7 @@ int Fun4All_G4_EICDetector(
   // add the settings for other with [1], next with [2]...
   if (Input::GUN)
   {
-    INPUTGENERATOR::Gun[0]->AddParticle("pi-", 0, 1, 0);
+    INPUTGENERATOR::Gun[0]->AddParticle("e-", 0, 10, -20);
     INPUTGENERATOR::Gun[0]->set_vtx(0, 0, 0);
   }
   // pythia6
@@ -195,6 +196,8 @@ int Fun4All_G4_EICDetector(
     Input::ApplyEICBeamParameter(INPUTMANAGER::HepMCInputManager);
     // optional overriding beam parameters
     //INPUTMANAGER::HepMCInputManager->set_vertex_distribution_width(100e-4, 100e-4, 30, 0);  //optional collision smear in space, time
+    INPUTMANAGER::HepMCInputManager->Verbosity(3);
+    INPUTMANAGER::HepMCInputManager->PHHepMCGenHelper_Verbosity(3);
                                                                                             //    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_mean(0,0,0,0);//optional collision central position shift in space, time
     // //optional choice of vertex distribution function in space, time
     // INPUTMANAGER::HepMCInputManager->set_vertex_distribution_function(PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus);
@@ -221,7 +224,7 @@ int Fun4All_G4_EICDetector(
   Enable::DSTOUT_COMPRESS = false;  // Compress DST files
 
   //Option to convert DST to human command readable TTree for quick poke around the outputs
-  //Enable::DSTREADER = true;
+  Enable::DSTREADER = true;
 
   // turn the display on (default off)
   Enable::DISPLAY = false;
@@ -235,12 +238,12 @@ int Fun4All_G4_EICDetector(
   //  Enable::VERBOSITY = 1;
 
   //  Enable::BBC = true;
-  Enable::BBCFAKE = true; // Smeared vtx and t0, use if you don't want real BBC in simulation
+  // Enable::BBCFAKE = true; // Smeared vtx and t0, use if you don't want real BBC in simulation
 
   // whether to simulate the Be section of the beam pipe
   Enable::PIPE = true;
   // EIC beam pipe extension beyond the Be-section:
-  //G4PIPE::use_forward_pipes = true;
+  G4PIPE::use_forward_pipes = true;
 
   Enable::EGEM = true;
   Enable::FGEM = true;
@@ -252,7 +255,7 @@ int Fun4All_G4_EICDetector(
   Enable::TPC = true;
   //  Enable::TPC_ENDCAP = true;
 
-  Enable::TRACKING = true;
+  Enable::TRACKING = false;
   Enable::TRACKING_EVAL = Enable::TRACKING && true;
   G4TRACKING::DISPLACED_VERTEX = false;  // this option exclude vertex in the track fitting and use RAVE to reconstruct primary and 2ndary vertexes
                                          // projections to calorimeters
@@ -260,23 +263,23 @@ int Fun4All_G4_EICDetector(
   G4TRACKING::PROJECTION_FEMC = false;
   G4TRACKING::PROJECTION_FHCAL = false;
 
-  Enable::CEMC = true;
+  Enable::CEMC = false;
   //  Enable::CEMC_ABSORBER = true;
   Enable::CEMC_CELL = Enable::CEMC && true;
   Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
   Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
   Enable::CEMC_EVAL = Enable::CEMC_CLUSTER && true;
 
-  Enable::HCALIN = true;
+  Enable::HCALIN = false;
   //  Enable::HCALIN_ABSORBER = true;
   Enable::HCALIN_CELL = Enable::HCALIN && true;
   Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
   Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
   Enable::HCALIN_EVAL = Enable::HCALIN_CLUSTER && true;
 
-  Enable::MAGNET = true;
+  Enable::MAGNET = false;
 
-  Enable::HCALOUT = true;
+  Enable::HCALOUT = false;
   //  Enable::HCALOUT_ABSORBER = true;
   Enable::HCALOUT_CELL = Enable::HCALOUT && true;
   Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
@@ -284,44 +287,44 @@ int Fun4All_G4_EICDetector(
   Enable::HCALOUT_EVAL = Enable::HCALOUT_CLUSTER && true;
 
   // EICDetector geometry - barrel
-  Enable::DIRC = true;
+  Enable::DIRC = false;
 
   // EICDetector geometry - 'hadron' direction
   Enable::RICH = true;
   Enable::AEROGEL = true;
 
-  Enable::FEMC = true;
+  Enable::FEMC = false;
   //  Enable::FEMC_ABSORBER = true;
   Enable::FEMC_TOWER = Enable::FEMC && true;
   Enable::FEMC_CLUSTER = Enable::FEMC_TOWER && true;
   Enable::FEMC_EVAL = Enable::FEMC_CLUSTER && true;
 
-  Enable::FHCAL = true;
+  Enable::FHCAL = false;
   //  Enable::FHCAL_ABSORBER = true;
   Enable::FHCAL_TOWER = Enable::FHCAL && true;
   Enable::FHCAL_CLUSTER = Enable::FHCAL_TOWER && true;
   Enable::FHCAL_EVAL = Enable::FHCAL_CLUSTER && true;
 
   // EICDetector geometry - 'electron' direction
-  Enable::EEMC = true;
+  Enable::EEMC = false;
   Enable::EEMC_TOWER = Enable::EEMC && true;
   Enable::EEMC_CLUSTER = Enable::EEMC_TOWER && true;
   Enable::EEMC_EVAL = Enable::EEMC_CLUSTER && true;
 
-  Enable::PLUGDOOR = true;
+  Enable::PLUGDOOR = false;
 
   // Other options
-  Enable::GLOBAL_RECO = true;
-  Enable::GLOBAL_FASTSIM = true;
+  Enable::GLOBAL_RECO = false;
+  Enable::GLOBAL_FASTSIM = false;
 
-  Enable::CALOTRIGGER = true && Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER;
+  Enable::CALOTRIGGER = false && Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER;
 
   // Select only one jet reconstruction- they currently use the same
   // output collections on the node tree!
-  Enable::JETS = true;
+  Enable::JETS = false;
   Enable::JETS_EVAL = Enable::JETS && true;
 
-  Enable::FWDJETS = true;
+  Enable::FWDJETS = false;
   Enable::FWDJETS_EVAL = Enable::FWDJETS && true;
 
   // HI Jet Reco for jet simulations in Au+Au (default is false for

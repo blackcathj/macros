@@ -477,6 +477,7 @@ void InputRegister()
     }
     // copy HepMC records into G4
     HepMCNodeReader *hr = new HepMCNodeReader();
+//    hr->Verbosity(10);
     se->registerSubsystem(hr);
   }
 }
