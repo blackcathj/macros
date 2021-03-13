@@ -26,7 +26,7 @@
 R__LOAD_LIBRARY(libfun4all.so)
 
 int Fun4All_G4_EICDetector(
-    const int nEvents = 10,
+    const int nEvents = 100000,
     const string &inputFile = "data/hepmc_test.lst",
     const string &outputFile = "G4EICDetector.root",
     const string &embed_input_file = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
@@ -196,8 +196,8 @@ int Fun4All_G4_EICDetector(
     Input::ApplyEICBeamParameter(INPUTMANAGER::HepMCInputManager);
     // optional overriding beam parameters
     //INPUTMANAGER::HepMCInputManager->set_vertex_distribution_width(100e-4, 100e-4, 30, 0);  //optional collision smear in space, time
-    INPUTMANAGER::HepMCInputManager->Verbosity(3);
-    INPUTMANAGER::HepMCInputManager->PHHepMCGenHelper_Verbosity(3);
+    //INPUTMANAGER::HepMCInputManager->Verbosity(3);
+    //INPUTMANAGER::HepMCInputManager->PHHepMCGenHelper_Verbosity(3);
                                                                                             //    INPUTMANAGER::HepMCInputManager->set_vertex_distribution_mean(0,0,0,0);//optional collision central position shift in space, time
     // //optional choice of vertex distribution function in space, time
     // INPUTMANAGER::HepMCInputManager->set_vertex_distribution_function(PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus, PHHepMCGenHelper::Gaus);
