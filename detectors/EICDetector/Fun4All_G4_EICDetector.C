@@ -328,12 +328,18 @@ int Fun4All_G4_EICDetector(
 
   // EICDetector geometry - barrel
   Enable::DIRC = true;
+  Enable::DIRC_RECO = Enable::DIRC && true;
+  // Enable::DIRC_VERBOSITY = 2;
 
   // EICDetector geometry - 'hadron' direction
   Enable::RICH = true;
+  Enable::RICH_RECO = Enable::DIRC && true;
+  // Enable::RICH_VERBOSITY = 2;
 
   // EICDetector geometry - 'electron' direction
   Enable::mRICH = true;
+  Enable::mRICH_RECO = Enable::DIRC && true;
+  // Enable::mRICH_VERBOSITY = 2;
 
   Enable::FEMC = true;
   //  Enable::FEMC_ABSORBER = true;
@@ -488,10 +494,16 @@ int Fun4All_G4_EICDetector(
   if (Enable::DSTOUT_COMPRESS) ShowerCompress();
 
   //--------------
-  // SVTX tracking
+  // Tracking and PID
   //--------------
 
   if (Enable::TRACKING) Tracking_Reco();
+
+  if (Enable::DIRC_RECO) DIRCReco();
+
+  if (Enable::mRICH_RECO ) mRICHReco();
+
+  if (Enable::RICH_RECO) RICHReco();
 
   //-----------------
   // Global Vertexing
@@ -570,6 +582,12 @@ int Fun4All_G4_EICDetector(
     se->registerOutputManager(out);
   }
 
+  AnaTutorialECCE *anaTutorial = new AnaTutorialECCE("anaTutorial", outputFile + "_anaTutorial.root");
+  anaTutorial->analyzeTracks(true);
+  anaTutorial->analyzeClusters(false);
+  anaTutorial->analyzeJets(false);
+  anaTutorial->analyzeTruth(false);
+  se->registerSubsystem(anaTutorial);
   //-----------------
   // Event processing
   //-----------------
