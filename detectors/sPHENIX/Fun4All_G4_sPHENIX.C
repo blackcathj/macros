@@ -129,6 +129,9 @@ int Fun4All_G4_sPHENIX(
   if (Input::SIMPLE)
   {
     INPUTGENERATOR::SimpleEventGenerator[0]->add_particles("pi-", 5);
+    INPUTGENERATOR::SimpleEventGenerator[0]->add_particles("pi+", 5);
+    INPUTGENERATOR::SimpleEventGenerator[0]->add_particles("kaon-", 5);
+    INPUTGENERATOR::SimpleEventGenerator[0]->add_particles("kaon+", 5);
     if (Input::HEPMC || Input::EMBED)
     {
       INPUTGENERATOR::SimpleEventGenerator[0]->set_reuse_existing_vertex(true);
@@ -140,11 +143,11 @@ int Fun4All_G4_sPHENIX(
                                                                                 PHG4SimpleEventGenerator::Uniform,
                                                                                 PHG4SimpleEventGenerator::Uniform);
       INPUTGENERATOR::SimpleEventGenerator[0]->set_vertex_distribution_mean(0., 0., 0.);
-      INPUTGENERATOR::SimpleEventGenerator[0]->set_vertex_distribution_width(0., 0., 5.);
+      INPUTGENERATOR::SimpleEventGenerator[0]->set_vertex_distribution_width(0., 0., 1.);
     }
-    INPUTGENERATOR::SimpleEventGenerator[0]->set_eta_range(-1, 1);
+    INPUTGENERATOR::SimpleEventGenerator[0]->set_eta_range(-1.5, 1.5);
     INPUTGENERATOR::SimpleEventGenerator[0]->set_phi_range(-M_PI, M_PI);
-    INPUTGENERATOR::SimpleEventGenerator[0]->set_pt_range(0.1, 20.);
+    INPUTGENERATOR::SimpleEventGenerator[0]->set_pt_range(2, 2.);
   }
   // Upsilons
   // if you run more than one of these Input::UPSILON_NUMBER > 1
@@ -285,48 +288,48 @@ int Fun4All_G4_sPHENIX(
   //  into the tracking, cannot run together with CEMC
   //  Enable::CEMCALBEDO = true;
 
-  Enable::CEMC = true;
-  Enable::CEMC_ABSORBER = true;
-  Enable::CEMC_CELL = Enable::CEMC && true;
-  Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
-  Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
-  Enable::CEMC_EVAL = Enable::CEMC_CLUSTER && true;
-  Enable::CEMC_QA = Enable::CEMC_CLUSTER and Enable::QA && true;
-
-  Enable::HCALIN = true;
-  Enable::HCALIN_ABSORBER = true;
-  Enable::HCALIN_CELL = Enable::HCALIN && true;
-  Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
-  Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
-  Enable::HCALIN_EVAL = Enable::HCALIN_CLUSTER && true;
-  Enable::HCALIN_QA = Enable::HCALIN_CLUSTER and Enable::QA && true;
-
-  Enable::MAGNET = true;
-  Enable::MAGNET_ABSORBER = true;
-
-  Enable::HCALOUT = true;
-  Enable::HCALOUT_ABSORBER = true;
-  Enable::HCALOUT_CELL = Enable::HCALOUT && true;
-  Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
-  Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
-  Enable::HCALOUT_EVAL = Enable::HCALOUT_CLUSTER && true;
-  Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER and Enable::QA && true;
-
-  Enable::EPD = true;
-
-
-  Enable::BEAMLINE = true;
-//  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
-//  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
-  Enable::ZDC = true;
-//  Enable::ZDC_ABSORBER = true;
-//  Enable::ZDC_SUPPORT = true;
-  Enable::ZDC_TOWER = Enable::ZDC && true;
-  Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
-
-  //! forward flux return plug door. Out of acceptance and off by default.
-  //Enable::PLUGDOOR = true;
-  Enable::PLUGDOOR_ABSORBER = true;
+//  Enable::CEMC = true;
+//  Enable::CEMC_ABSORBER = true;
+//  Enable::CEMC_CELL = Enable::CEMC && true;
+//  Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
+//  Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
+//  Enable::CEMC_EVAL = Enable::CEMC_CLUSTER && true;
+//  Enable::CEMC_QA = Enable::CEMC_CLUSTER and Enable::QA && true;
+//
+//  Enable::HCALIN = true;
+//  Enable::HCALIN_ABSORBER = true;
+//  Enable::HCALIN_CELL = Enable::HCALIN && true;
+//  Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
+//  Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
+//  Enable::HCALIN_EVAL = Enable::HCALIN_CLUSTER && true;
+//  Enable::HCALIN_QA = Enable::HCALIN_CLUSTER and Enable::QA && true;
+//
+//  Enable::MAGNET = true;
+//  Enable::MAGNET_ABSORBER = true;
+//
+//  Enable::HCALOUT = true;
+//  Enable::HCALOUT_ABSORBER = true;
+//  Enable::HCALOUT_CELL = Enable::HCALOUT && true;
+//  Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
+//  Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
+//  Enable::HCALOUT_EVAL = Enable::HCALOUT_CLUSTER && true;
+//  Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER and Enable::QA && true;
+//
+//  Enable::EPD = true;
+//
+//
+//  Enable::BEAMLINE = true;
+////  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
+////  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
+//  Enable::ZDC = true;
+////  Enable::ZDC_ABSORBER = true;
+////  Enable::ZDC_SUPPORT = true;
+//  Enable::ZDC_TOWER = Enable::ZDC && true;
+//  Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
+//
+//  //! forward flux return plug door. Out of acceptance and off by default.
+//  //Enable::PLUGDOOR = true;
+//  Enable::PLUGDOOR_ABSORBER = true;
 
   Enable::GLOBAL_RECO = true;
   //Enable::GLOBAL_FASTSIM = true;
