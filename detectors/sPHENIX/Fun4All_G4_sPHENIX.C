@@ -121,7 +121,8 @@ int Fun4All_G4_sPHENIX(
   INPUTHEPMC::filename = inputFile;
 
   // Event pile up simulation with collision rate in Hz MB collisions.
-  //Input::PILEUPRATE = 100e3;
+  Input::PILEUPRATE = 3e6;
+  PILEUP::pileupfile = "phpythia8_200GeVMB_hepmc.dat.gz";
 
   //-----------------
   // Initialize the selected Input/Event generation
