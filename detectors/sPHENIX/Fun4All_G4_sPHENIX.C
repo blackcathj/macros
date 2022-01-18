@@ -13,13 +13,13 @@
 #include <G4_HIJetReco.C>
 #include <G4_Input.C>
 #include <G4_Jets.C>
-#include <G4_KFParticle.C>
+//#include <G4_KFParticle.C>
 #include <G4_ParticleFlow.C>
 #include <G4_Production.C>
 #include <G4_TopoClusterReco.C>
 #include <G4_Tracking.C>
 #include <G4_User.C>
-#include <QA.C>
+//#include <QA.C>
 
 #include <fun4all/Fun4AllDstOutputManager.h>
 #include <fun4all/Fun4AllOutputManager.h>
@@ -42,7 +42,7 @@ int Fun4All_G4_sPHENIX(
     const string &outdir = ".")
 {
   Fun4AllServer *se = Fun4AllServer::instance();
-  se->Verbosity(0);
+  se->Verbosity(01);
 
   //Opt to print all random seed used for debugging reproducibility. Comment out to reduce stdout prints.
   PHRandomSeed::Verbosity(1);
@@ -270,87 +270,87 @@ int Fun4All_G4_sPHENIX(
 
   // central tracking
   Enable::MVTX = true;
-  Enable::MVTX_CELL = Enable::MVTX && true;
-  Enable::MVTX_CLUSTER = Enable::MVTX_CELL && true;
-  Enable::MVTX_QA = Enable::MVTX_CLUSTER and Enable::QA && true;
-  Enable::TrackingService = true;
+//  Enable::MVTX_CELL = Enable::MVTX && true;
+//  Enable::MVTX_CLUSTER = Enable::MVTX_CELL && true;
+//  Enable::MVTX_QA = Enable::MVTX_CLUSTER and Enable::QA && true;
+//  Enable::TrackingService = true;
 
   Enable::INTT = true;
-  Enable::INTT_CELL = Enable::INTT && true;
-  Enable::INTT_CLUSTER = Enable::INTT_CELL && true;
-  Enable::INTT_QA = Enable::INTT_CLUSTER and Enable::QA && true;
+//  Enable::INTT_CELL = Enable::INTT && true;
+//  Enable::INTT_CLUSTER = Enable::INTT_CELL && true;
+//  Enable::INTT_QA = Enable::INTT_CLUSTER and Enable::QA && true;
 
   Enable::TPC = true;
   Enable::TPC_ABSORBER = true;
   Enable::TPC_CELL = Enable::TPC && true;
-  Enable::TPC_CLUSTER = Enable::TPC_CELL && true;
+//  Enable::TPC_CLUSTER = Enable::TPC_CELL && true;
   Enable::TPC_QA = Enable::TPC_CLUSTER and Enable::QA && true;
 
   Enable::MICROMEGAS = true;
-  Enable::MICROMEGAS_CELL = Enable::MICROMEGAS && true;
-  Enable::MICROMEGAS_CLUSTER = Enable::MICROMEGAS_CELL && true;
-  Enable::MICROMEGAS_QA = Enable::MICROMEGAS_CLUSTER && Enable::QA && true;
+//  Enable::MICROMEGAS_CELL = Enable::MICROMEGAS && true;
+//  Enable::MICROMEGAS_CLUSTER = Enable::MICROMEGAS_CELL && true;
+//  Enable::MICROMEGAS_QA = Enable::MICROMEGAS_CLUSTER && Enable::QA && true;
 
-  Enable::TRACKING_TRACK = true;
-  Enable::TRACKING_EVAL = Enable::TRACKING_TRACK && true;
-  Enable::TRACKING_QA = Enable::TRACKING_TRACK and Enable::QA && true;
+//  Enable::TRACKING_TRACK = true;
+//  Enable::TRACKING_EVAL = Enable::TRACKING_TRACK && true;
+//  Enable::TRACKING_QA = Enable::TRACKING_TRACK and Enable::QA && true;
 
   //  cemc electronics + thin layer of W-epoxy to get albedo from cemc
   //  into the tracking, cannot run together with CEMC
   //  Enable::CEMCALBEDO = true;
 
-  Enable::CEMC = true;
-  Enable::CEMC_ABSORBER = true;
-  Enable::CEMC_CELL = Enable::CEMC && true;
-  Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
-  Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
-  Enable::CEMC_EVAL = Enable::CEMC_CLUSTER && true;
-  Enable::CEMC_QA = Enable::CEMC_CLUSTER and Enable::QA && true;
-
-  Enable::HCALIN = true;
-  Enable::HCALIN_ABSORBER = true;
-  Enable::HCALIN_CELL = Enable::HCALIN && true;
-  Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
-  Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
-  Enable::HCALIN_EVAL = Enable::HCALIN_CLUSTER && true;
-  Enable::HCALIN_QA = Enable::HCALIN_CLUSTER and Enable::QA && true;
-
+//  Enable::CEMC = true;
+//  Enable::CEMC_ABSORBER = true;
+//  Enable::CEMC_CELL = Enable::CEMC && true;
+//  Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
+//  Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
+//  Enable::CEMC_EVAL = Enable::CEMC_CLUSTER && true;
+//  Enable::CEMC_QA = Enable::CEMC_CLUSTER and Enable::QA && true;
+//
+//  Enable::HCALIN = true;
+//  Enable::HCALIN_ABSORBER = true;
+//  Enable::HCALIN_CELL = Enable::HCALIN && true;
+//  Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
+//  Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
+//  Enable::HCALIN_EVAL = Enable::HCALIN_CLUSTER && true;
+//  Enable::HCALIN_QA = Enable::HCALIN_CLUSTER and Enable::QA && true;
+//
   Enable::MAGNET = true;
-  Enable::MAGNET_ABSORBER = true;
+//  Enable::MAGNET_ABSORBER = true;
+//
+//  Enable::HCALOUT = true;
+//  Enable::HCALOUT_ABSORBER = true;
+//  Enable::HCALOUT_CELL = Enable::HCALOUT && true;
+//  Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
+//  Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
+//  Enable::HCALOUT_EVAL = Enable::HCALOUT_CLUSTER && true;
+//  Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER and Enable::QA && true;
+//
+//  Enable::EPD = true;
+//
+//  Enable::BEAMLINE = true;
+////  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
+////  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
+//  Enable::ZDC = true;
+////  Enable::ZDC_ABSORBER = true;
+////  Enable::ZDC_SUPPORT = true;
+//  Enable::ZDC_TOWER = Enable::ZDC && true;
+//  Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
+//
+//  //! forward flux return plug door. Out of acceptance and off by default.
+//  //Enable::PLUGDOOR = true;
+//  Enable::PLUGDOOR_ABSORBER = true;
 
-  Enable::HCALOUT = true;
-  Enable::HCALOUT_ABSORBER = true;
-  Enable::HCALOUT_CELL = Enable::HCALOUT && true;
-  Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
-  Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
-  Enable::HCALOUT_EVAL = Enable::HCALOUT_CLUSTER && true;
-  Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER and Enable::QA && true;
-
-  Enable::EPD = true;
-
-  Enable::BEAMLINE = true;
-//  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
-//  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
-  Enable::ZDC = true;
-//  Enable::ZDC_ABSORBER = true;
-//  Enable::ZDC_SUPPORT = true;
-  Enable::ZDC_TOWER = Enable::ZDC && true;
-  Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
-
-  //! forward flux return plug door. Out of acceptance and off by default.
-  //Enable::PLUGDOOR = true;
-  Enable::PLUGDOOR_ABSORBER = true;
-
-  Enable::GLOBAL_RECO = true;
+//  Enable::GLOBAL_RECO = true;
   //Enable::GLOBAL_FASTSIM = true;
   //Enable::KFPARTICLE = true;
   //Enable::KFPARTICLE_VERBOSITY = 1;
   //Enable::KFPARTICLE_TRUTH_MATCH = true;
   //Enable::KFPARTICLE_SAVE_NTUPLE = true;
 
-  Enable::CALOTRIGGER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
+//  Enable::CALOTRIGGER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
 
-  Enable::JETS = true;
+//  Enable::JETS = true;
   Enable::JETS_EVAL = Enable::JETS && true;
   Enable::JETS_QA = Enable::JETS and Enable::QA && true;
 
@@ -364,7 +364,7 @@ int Fun4All_G4_sPHENIX(
   // particle flow jet reconstruction - needs topoClusters!
   Enable::PARTICLEFLOW = true && Enable::TOPOCLUSTER;
   // centrality reconstruction
-  Enable::CENTRALITY = true;
+//  Enable::CENTRALITY = true;
 
   // new settings using Enable namespace in GlobalVariables.C
   Enable::BLACKHOLE = true;
@@ -372,7 +372,7 @@ int Fun4All_G4_sPHENIX(
   //BlackHoleGeometry::visible = true;
 
   // run user provided code (from local G4_User.C)
-  //Enable::USER = true;
+  Enable::USER = true;
 
   //---------------
   // World Settings
@@ -533,26 +533,26 @@ int Fun4All_G4_sPHENIX(
   //======================
   // Run KFParticle on evt
   //======================
-  if (Enable::KFPARTICLE && Input::UPSILON) KFParticle_Upsilon_Reco();
-  if (Enable::KFPARTICLE && Input::DZERO) KFParticle_D0_Reco();
+//  if (Enable::KFPARTICLE && Input::UPSILON) KFParticle_Upsilon_Reco();
+//  if (Enable::KFPARTICLE && Input::DZERO) KFParticle_D0_Reco();
 
   //----------------------
   // Standard QAs
   //----------------------
 
-  if (Enable::CEMC_QA) CEMC_QA();
-  if (Enable::HCALIN_QA) HCALInner_QA();
-  if (Enable::HCALOUT_QA) HCALOuter_QA();
-
-  if (Enable::JETS_QA) Jet_QA();
-
-  if (Enable::MVTX_QA) Mvtx_QA();
-  if (Enable::INTT_QA) Intt_QA();
-  if (Enable::TPC_QA) TPC_QA();
-  if (Enable::MICROMEGAS_QA) Micromegas_QA();
-  if (Enable::TRACKING_QA) Tracking_QA();
-
-  if (Enable::TRACKING_QA and Enable::CEMC_QA and Enable::HCALIN_QA and Enable::HCALOUT_QA) QA_G4CaloTracking();
+//  if (Enable::CEMC_QA) CEMC_QA();
+//  if (Enable::HCALIN_QA) HCALInner_QA();
+//  if (Enable::HCALOUT_QA) HCALOuter_QA();
+//
+//  if (Enable::JETS_QA) Jet_QA();
+//
+//  if (Enable::MVTX_QA) Mvtx_QA();
+//  if (Enable::INTT_QA) Intt_QA();
+//  if (Enable::TPC_QA) TPC_QA();
+//  if (Enable::MICROMEGAS_QA) Micromegas_QA();
+//  if (Enable::TRACKING_QA) Tracking_QA();
+//
+//  if (Enable::TRACKING_QA and Enable::CEMC_QA and Enable::HCALIN_QA and Enable::HCALOUT_QA) QA_G4CaloTracking();
 
   //--------------
   // Set up Input Managers
