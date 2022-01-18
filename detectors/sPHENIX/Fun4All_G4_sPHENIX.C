@@ -93,13 +93,14 @@ int Fun4All_G4_sPHENIX(
   // if you use a filelist
   //INPUTEMBED::listfile[0] = embed_input_file;
 
-  Input::SIMPLE = true;
+  // Input::SIMPLE = true;
   // Input::SIMPLE_NUMBER = 2; // if you need 2 of them
   // Input::SIMPLE_VERBOSITY = 1;
 
   //  Input::PYTHIA6 = true;
 
-  // Input::PYTHIA8 = true;
+  Input::PYTHIA8 = true;
+  PYTHIA8::config_file = "phpythia8_d02kpi_MDC2.cfg";
 
   //  Input::GUN = true;
   //  Input::GUN_NUMBER = 3; // if you need 3 of them
