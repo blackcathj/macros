@@ -1,6 +1,8 @@
 #ifndef MACRO_G4BBC_C
 #define MACRO_G4BBC_C
 
+#include <GlobalVariables.C>
+
 #include <g4detectors/PHG4BbcSubsystem.h>
 
 #include <g4bbc/BbcVertexFastSimReco.h>
@@ -14,9 +16,10 @@ R__LOAD_LIBRARY(libg4detectors.so)
 
 namespace Enable
 {
-  bool BBC = false;
-  bool BBCFAKE = false;
-  int BBC_VERBOSITY = 0;
+  bool BBC = false;          // Actual BBC detector
+  bool BBC_SUPPORT = false;  // BBC Supports
+  bool BBCFAKE = false;     // Just generate fake bbc vtx, t0
+  int  BBC_VERBOSITY = 0;
 }  // namespace Enable
 
 namespace G4BBC
@@ -43,10 +46,17 @@ void BbcInit()
 
 void Bbc(PHG4Reco* g4Reco)
 {
+  bool SupportActive = Enable::SUPPORT || Enable::BBC_SUPPORT;
   if (Enable::BBC)
   {
     PHG4BbcSubsystem* bbc = new PHG4BbcSubsystem("BBC");
     bbc->SuperDetector("BBC");
+    bbc->OverlapCheck( Enable::OVERLAPCHECK );
+    bbc->SetActive();
+    if (SupportActive)
+    {
+      bbc->SetSupportActive(SupportActive);
+    }
     g4Reco->registerSubsystem(bbc);
   }
   return;

@@ -197,7 +197,20 @@ void HCALOuter_Towers()
   TowerCalibration->Detector("HCALOUT");
   //  TowerCalibration->set_raw_tower_node_prefix("RAW_LG");
   //  TowerCalibration->set_calib_tower_node_prefix("CALIB_LG");
-  TowerCalibration->set_calib_algorithm(RawTowerCalibration::kSimple_linear_calibration);
+
+  //TowerCalibration->set_calib_algorithm(RawTowerCalibration::kSimple_linear_calibration);
+
+
+  // see documentation in github/jtaou/coresoft 
+  // ...[calib/towerslope] /macros/G4_CEmc_Spacal.C
+  // for more info about TowerCalibration dbfile mode 
+  TowerCalibration->set_calib_algorithm(RawTowerCalibration::kDbfile_tbt_gain_corr);
+  TowerCalibration->set_UseConditionsDB(false);
+  //
+  //TowerCalibration->set_CalibrationFileName("HCALOUT_GainsCalib1.22.txt");
+  TowerCalibration->set_CalibrationFileName("HCALOUT_GainsCalib1.12_PosEtaOnly_NegEta1.0.txt");
+  
+  
   if (G4HCALOUT::TowerDigi == RawTowerDigitizer::kNo_digitization)
   {
     // 0.033 extracted from electron sims (edep(scintillator)/edep(total))

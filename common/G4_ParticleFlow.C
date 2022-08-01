@@ -4,6 +4,7 @@
 #include <GlobalVariables.C>
 
 #include <g4jets/FastJetAlgo.h>
+#include <g4jets/JetReco.h>
 
 #include <particleflowreco/ParticleFlowJetInput.h>
 #include <particleflowreco/ParticleFlowReco.h>
@@ -32,7 +33,6 @@ void ParticleFlow()
   // note: assumes topoCluster input already configured
   ParticleFlowReco *pfr = new ParticleFlowReco();
   pfr->set_energy_match_Nsigma(1.5);
-  pfr->set_emulated_efficiency(1.0);
   pfr->Verbosity(verbosity);
   se->registerSubsystem(pfr);
 
