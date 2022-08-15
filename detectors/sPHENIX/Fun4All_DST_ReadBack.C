@@ -22,7 +22,8 @@ R__LOAD_LIBRARY(libfun4all.so)
 R__LOAD_LIBRARY(libg4eval.so)
 
 // void Fun4All_DST_ReadBack(const int nevnt = 100, const char *inputfile = "data/MDC2_Run41_FTFP_BERT_HP.g4hits.list")
-void Fun4All_DST_ReadBack(const int nevnt = 100, const char *inputfile = "data/MDC2_Run40_FTFP_BERT.g4hits.list")
+// void Fun4All_DST_ReadBack(const int nevnt = 100, const char *inputfile = "data/MDC2_Run40_FTFP_BERT.g4hits.list")
+void Fun4All_DST_ReadBack(const int nevnt = 10000, const char *inputfile = "data/MDC2_pp_Run42_FTFP_BERT.g4hits.list")
 {
   gSystem->Load("libg4dst");
   Fun4AllServer *se = Fun4AllServer::instance();
