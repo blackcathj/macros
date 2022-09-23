@@ -260,7 +260,7 @@ int Fun4All_G4_sPHENIX(
   //  Enable::DSTREADER = true;
 
   // turn the display on (default off)
-   //Enable::DISPLAY = true;
+   Enable::DISPLAY = true;
 
   //======================
   // What to run
@@ -282,25 +282,25 @@ int Fun4All_G4_sPHENIX(
   Enable::PIPE_ABSORBER = true;
 
   // central tracking
-  Enable::MVTX = true;
+  Enable::MVTX = false;
   Enable::MVTX_CELL = Enable::MVTX && true;
   Enable::MVTX_CLUSTER = Enable::MVTX_CELL && true;
   Enable::MVTX_QA = Enable::MVTX_CLUSTER && Enable::QA && true;
 
-  Enable::INTT = true;
+  Enable::INTT = false;
 //  Enable::INTT_ABSORBER = true; // enables layerwise support structure readout
 //  Enable::INTT_SUPPORT = true; // enable global support structure readout
   Enable::INTT_CELL = Enable::INTT && true;
   Enable::INTT_CLUSTER = Enable::INTT_CELL && true;
   Enable::INTT_QA = Enable::INTT_CLUSTER && Enable::QA && true;
 
-  Enable::TPC = true;
+  Enable::TPC = false;
   Enable::TPC_ABSORBER = true;
   Enable::TPC_CELL = Enable::TPC && true;
   Enable::TPC_CLUSTER = Enable::TPC_CELL && true;
   Enable::TPC_QA = Enable::TPC_CLUSTER && Enable::QA && true;
 
-  Enable::MICROMEGAS = true;
+  Enable::MICROMEGAS = false;
   Enable::MICROMEGAS_CELL = Enable::MICROMEGAS && true;
   Enable::MICROMEGAS_CLUSTER = Enable::MICROMEGAS_CELL && true;
   Enable::MICROMEGAS_QA = Enable::MICROMEGAS_CLUSTER && Enable::QA && true;
@@ -313,7 +313,7 @@ int Fun4All_G4_sPHENIX(
   //  into the tracking, cannot run together with CEMC
   //  Enable::CEMCALBEDO = true;
 
-  Enable::CEMC = true;
+  Enable::CEMC = false;
   Enable::CEMC_ABSORBER = true;
   Enable::CEMC_CELL = Enable::CEMC && true;
   Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
@@ -340,12 +340,12 @@ int Fun4All_G4_sPHENIX(
   Enable::HCALOUT_EVAL = Enable::HCALOUT_CLUSTER && true;
   Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER && Enable::QA && true;
 
-  Enable::EPD = true;
+  Enable::EPD = false;
 
-  Enable::BEAMLINE = true;
+  Enable::BEAMLINE = false;
 //  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
 //  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
-  Enable::ZDC = true;
+  Enable::ZDC = false;
 //  Enable::ZDC_ABSORBER = true;
 //  Enable::ZDC_SUPPORT = true;
   Enable::ZDC_TOWER = Enable::ZDC && true;
@@ -353,7 +353,7 @@ int Fun4All_G4_sPHENIX(
 
   //! forward flux return plug door. Out of acceptance and off by default.
   //Enable::PLUGDOOR = true;
-  Enable::PLUGDOOR_ABSORBER = true;
+  Enable::PLUGDOOR_ABSORBER = false;
 
   Enable::GLOBAL_RECO = (Enable::BBCFAKE || Enable::TRACKING_TRACK) && true;
   //Enable::GLOBAL_FASTSIM = true;
