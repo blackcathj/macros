@@ -97,6 +97,7 @@ namespace G4TPC
 namespace G4TRACKING
 {
   bool init_acts_magfield = true;
+  int cluster_version = 4;
 }
 
 

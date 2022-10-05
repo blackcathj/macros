@@ -123,6 +123,8 @@ void Tracking_Reco_TrackSeed()
     } else {
       auto silicon_Seeding = new PHActsSiliconSeeding;
       silicon_Seeding->Verbosity(verbosity);
+      std::cout << "SETTING SI SEED CV" << std::endl;
+      silicon_Seeding->set_cluster_version(G4TRACKING::cluster_version);
       silicon_Seeding->fieldMapName(G4MAGNET::magfield);
       se->registerSubsystem(silicon_Seeding);
       
@@ -153,7 +155,7 @@ void Tracking_Reco_TrackSeed()
       }
       seeder->Verbosity(verbosity);
       seeder->SetLayerRange(7, 55);
-      seeder->SetSearchWindow(0.01, 0.02);  // (eta width, phi width)
+      seeder->SetSearchWindow(1.5, 0.05);  // (z width, phi width)
       seeder->SetMinHitsPerCluster(0);
       seeder->SetMinClustersPerTrack(3);
       seeder->useConstBField(false);
@@ -170,6 +172,7 @@ void Tracking_Reco_TrackSeed()
       cprop->useConstBField(false);
       cprop->useFixedClusterError(true);
       cprop->set_max_window(5.);
+      cprop->set_cluster_version(G4TRACKING::cluster_version);
       cprop->Verbosity(verbosity);
       se->registerSubsystem(cprop);
     }
@@ -215,11 +218,8 @@ void Tracking_Reco_TrackSeed()
       // Match TPC track stubs from CA seeder to clusters in the micromegas layers
       auto mm_match = new PHMicromegasTpcTrackMatching;
       mm_match->Verbosity(verbosity);
-       mm_match->set_sc_calib_mode(G4TRACKING::SC_CALIBMODE);
       if (G4TRACKING::SC_CALIBMODE)
       {
-        // calibration pass with distorted tracks
-        mm_match->set_collision_rate(G4TRACKING::SC_COLLISIONRATE);
         // configuration is potentially with different search windows
         mm_match->set_rphi_search_window_lyr1(0.2);
         mm_match->set_rphi_search_window_lyr2(13.0);
@@ -303,7 +303,7 @@ void Tracking_Reco_TrackFit()
   // perform final track fit with ACTS
   auto actsFit = new PHActsTrkFitter;
   actsFit->Verbosity(verbosity);
-  
+  actsFit->set_cluster_version(G4TRACKING::cluster_version);
   // in calibration mode, fit only Silicons and Micromegas hits
   actsFit->fitSiliconMMs(G4TRACKING::SC_CALIBMODE);
   actsFit->setUseMicromegas(G4TRACKING::SC_USE_MICROMEGAS);
@@ -360,6 +360,7 @@ void Tracking_Reco()
    * just a wrapper around track seeding and track fitting methods, 
    * to minimize disruption to existing steering macros
    */
+  std::cout << "Running Tracking_Reco " << std::endl;
   Tracking_Reco_TrackSeed();
 
   if(G4TRACKING::convert_seeds_to_svtxtracks)
@@ -420,6 +421,8 @@ void Tracking_Eval(const std::string& outputfile)
   eval->scan_for_primaries(embed_scan);  // defaults to only thrown particles for ntp_gtrack
   std::cout << "SvtxEvaluator: pp_mode set to " << TRACKING::pp_mode << " and scan_for_embedded set to " << embed_scan << std::endl;
   eval->Verbosity(verbosity);
+  eval->set_cluster_version(G4TRACKING::cluster_version);
+
   se->registerSubsystem(eval);
 
   return;
