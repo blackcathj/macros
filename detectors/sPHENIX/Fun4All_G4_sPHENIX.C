@@ -17,7 +17,7 @@
 #include <G4_ParticleFlow.C>
 #include <G4_Production.C>
 #include <G4_TopoClusterReco.C>
-#include <G4_Tracking.C>
+//#include <G4_Tracking.C>
 #include <G4_User.C>
 #include <QA.C>
 
@@ -38,12 +38,16 @@ R__LOAD_LIBRARY(libffamodules.so)
 
 // For HepMC Hijing
 // try inputFile = /sphenix/sim/sim01/sphnxpro/sHijing_HepMC/sHijing_0-12fm.dat
+// The G4Hist file is from a current production, you might have to change
+// the runnumber if this file does not exist anymore
+// Check our wiki how to get files:
+// https://wiki.sphenix.bnl.gov/index.php/MDC2_2022#Access_Samples
 
 int Fun4All_G4_sPHENIX(
     const int nEvents = 1,
-    const string &inputFile = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
+    const string &inputFile = "G4Hits_pythia8_pp_mb-0000000050-00000.root",
     const string &outputFile = "G4sPHENIX.root",
-    const string &embed_input_file = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
+    const string &embed_input_file = "G4Hits_pythia8_pp_mb-0000000050-00000.root",
     const int skip = 0,
     const string &outdir = ".")
 {
@@ -76,7 +80,7 @@ int Fun4All_G4_sPHENIX(
   // read previously generated g4-hits files, in this case it opens a DST and skips
   // the simulations step completely. The G4Setup macro is only loaded to get information
   // about the number of layers used for the cell reco code
-  //  Input::READHITS = true;
+  //Input::READHITS = true;
   INPUTREADHITS::filename[0] = inputFile;
   // if you use a filelist
   // INPUTREADHITS::listfile[0] = inputFile;
@@ -86,7 +90,7 @@ int Fun4All_G4_sPHENIX(
   // Further choose to embed newly simulated events to a previous simulation. Not compatible with `readhits = true`
   // In case embedding into a production output, please double check your G4Setup_sPHENIX.C and G4_*.C consistent with those in the production macro folder
   // E.g. /sphenix/sim//sim01/production/2016-07-21/single_particle/spacal2d/
-  //  Input::EMBED = true;
+  Input::EMBED = true;
   INPUTEMBED::filename[0] = embed_input_file;
   // if you use a filelist
   //INPUTEMBED::listfile[0] = embed_input_file;
@@ -267,7 +271,7 @@ int Fun4All_G4_sPHENIX(
   //======================
 
   // QA, main switch
-  Enable::QA = true;
+//  Enable::QA = true;
 
   // Global options (enabled for all enables subsystems - if implemented)
   //  Enable::ABSORBER = true;
@@ -305,9 +309,9 @@ int Fun4All_G4_sPHENIX(
   Enable::MICROMEGAS_CLUSTER = Enable::MICROMEGAS_CELL && true;
   Enable::MICROMEGAS_QA = Enable::MICROMEGAS_CLUSTER && Enable::QA && true;
 
-  Enable::TRACKING_TRACK = (Enable::MICROMEGAS_CLUSTER && Enable::TPC_CLUSTER && Enable::INTT_CLUSTER && Enable::MVTX_CLUSTER) && true;
-  Enable::TRACKING_EVAL = Enable::TRACKING_TRACK && true;
-  Enable::TRACKING_QA = Enable::TRACKING_TRACK && Enable::QA && true;
+  // Enable::TRACKING_TRACK = (Enable::MICROMEGAS_CLUSTER && Enable::TPC_CLUSTER && Enable::INTT_CLUSTER && Enable::MVTX_CLUSTER) && true;
+  // Enable::TRACKING_EVAL = Enable::TRACKING_TRACK && true;
+  // Enable::TRACKING_QA = Enable::TRACKING_TRACK && Enable::QA && true;
 
   //  cemc electronics + thin layer of W-epoxy to get albedo from cemc
   //  into the tracking, cannot run together with CEMC
@@ -355,8 +359,8 @@ int Fun4All_G4_sPHENIX(
   //Enable::PLUGDOOR = true;
   Enable::PLUGDOOR_ABSORBER = true;
 
-  Enable::GLOBAL_RECO = (Enable::BBCFAKE || Enable::TRACKING_TRACK) && true;
-  //Enable::GLOBAL_FASTSIM = true;
+//  Enable::GLOBAL_RECO = (Enable::BBCFAKE || Enable::TRACKING_TRACK) && true;
+  Enable::GLOBAL_FASTSIM = true;
 
   //Enable::KFPARTICLE = true;
   //Enable::KFPARTICLE_VERBOSITY = 1;
@@ -474,19 +478,19 @@ int Fun4All_G4_sPHENIX(
   //--------------
   // SVTX tracking
   //--------------
-  if(Enable::TRACKING_TRACK)
-    {
-      TrackingInit();
-    }
+  // if(Enable::TRACKING_TRACK)
+  //   {
+  //     TrackingInit();
+  //   }
   if (Enable::MVTX_CLUSTER) Mvtx_Clustering();
   if (Enable::INTT_CLUSTER) Intt_Clustering();
   if (Enable::TPC_CLUSTER) TPC_Clustering();
   if (Enable::MICROMEGAS_CLUSTER) Micromegas_Clustering();
 
-  if (Enable::TRACKING_TRACK)
-  {
-    Tracking_Reco();
-  }
+  // if (Enable::TRACKING_TRACK)
+  // {
+  //   Tracking_Reco();
+  // }
   //-----------------
   // Global Vertexing
   //-----------------
@@ -543,7 +547,7 @@ int Fun4All_G4_sPHENIX(
     outputroot.erase(pos, remove_this.length());
   }
 
-  if (Enable::TRACKING_EVAL) Tracking_Eval(outputroot + "_g4svtx_eval.root");
+//  if (Enable::TRACKING_EVAL) Tracking_Eval(outputroot + "_g4svtx_eval.root");
 
   if (Enable::CEMC_EVAL) CEMC_Eval(outputroot + "_g4cemc_eval.root");
 
@@ -577,9 +581,9 @@ int Fun4All_G4_sPHENIX(
   if (Enable::INTT_QA) Intt_QA();
   if (Enable::TPC_QA) TPC_QA();
   if (Enable::MICROMEGAS_QA) Micromegas_QA();
-  if (Enable::TRACKING_QA) Tracking_QA();
+//  if (Enable::TRACKING_QA) Tracking_QA();
 
-  if (Enable::TRACKING_QA && Enable::CEMC_QA && Enable::HCALIN_QA && Enable::HCALOUT_QA) QA_G4CaloTracking();
+//  if (Enable::TRACKING_QA && Enable::CEMC_QA && Enable::HCALIN_QA && Enable::HCALOUT_QA) QA_G4CaloTracking();
 
   //--------------
   // Set up Input Managers
@@ -635,6 +639,9 @@ int Fun4All_G4_sPHENIX(
     cout << "it will run forever, so I just return without running anything" << endl;
     return 0;
   }
+
+  PHG4Reco *g4 = (PHG4Reco *) se->getSubsysReco("PHG4RECO");
+  g4->ApplyCommand("/tracking/verbose 2");
 
   se->skip(skip);
   se->run(nEvents);
