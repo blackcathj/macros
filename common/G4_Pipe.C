@@ -97,6 +97,58 @@ double Pipe(PHG4Reco* g4Reco, double radius)
   g4Reco->registerSubsystem(cyl);
 
   // north aluminum pipe
+  double north_pipe_place_z = G4PIPE::be_pipe_zshift + 0.5 * G4PIPE::be_pipe_length + 0.5 * (G4PIPE::al_pipe_north_length + G4PIPE::al_pipe_north_ext_length);
+  cyl = new PHG4CylinderSubsystem("VAC_N_AL_PIPE", ilayer++);
+  cyl->set_double_param("place_z", north_pipe_place_z + no_overlapp);
+  cyl->set_double_param("radius", 0.0);
+  cyl->set_int_param("lengthviarapidity", 0);
+  cyl->set_double_param("length", G4PIPE::al_pipe_north_length + G4PIPE::al_pipe_north_ext_length);
+  cyl->set_string_param("material", "G4_Galactic");
+  cyl->set_double_param("thickness", G4PIPE::al_pipe_radius);
+  cyl->SuperDetector("PIPE");
+  if (AbsorberActive) cyl->SetActive();
+  cyl->OverlapCheck(OverlapCheck);
+  g4Reco->registerSubsystem(cyl);
+
+  cyl = new PHG4CylinderSubsystem("N_AL_PIPE", ilayer++);
+  cyl->set_double_param("place_z", north_pipe_place_z + no_overlapp);
+  cyl->set_double_param("radius", G4PIPE::al_pipe_radius);
+  cyl->set_int_param("lengthviarapidity", 0);
+  cyl->set_double_param("length", G4PIPE::al_pipe_north_length + G4PIPE::al_pipe_north_ext_length);
+  cyl->set_string_param("material", "G4_Al");
+  cyl->set_double_param("thickness", G4PIPE::al_pipe_thickness);
+  cyl->SuperDetector("PIPE");
+  if (AbsorberActive) cyl->SetActive();
+  cyl->OverlapCheck(OverlapCheck);
+  g4Reco->registerSubsystem(cyl);
+
+
+  // south aluminum pipe
+  double south_pipe_place_z = G4PIPE::be_pipe_zshift - 0.5 * G4PIPE::be_pipe_length - 0.5 * G4PIPE::al_pipe_south_length;
+  cyl = new PHG4CylinderSubsystem("VAC_S_AL_PIPE", ilayer++);
+  cyl->set_double_param("place_z", south_pipe_place_z - no_overlapp);
+  cyl->set_double_param("radius", 0.0);
+  cyl->set_int_param("lengthviarapidity", 0);
+  cyl->set_double_param("length", G4PIPE::al_pipe_south_length);
+  cyl->set_string_param("material", "G4_Galactic");
+  cyl->set_double_param("thickness", G4PIPE::al_pipe_radius);
+  cyl->SuperDetector("PIPE");
+  if (AbsorberActive) cyl->SetActive();
+  cyl->OverlapCheck(OverlapCheck);
+  g4Reco->registerSubsystem(cyl);
+
+  cyl = new PHG4CylinderSubsystem("S_AL_PIPE", ilayer++);
+  cyl->set_double_param("place_z", south_pipe_place_z + no_overlapp);
+  cyl->set_double_param("radius", G4PIPE::al_pipe_radius);
+  cyl->set_int_param("lengthviarapidity", 0);
+  cyl->set_double_param("length", G4PIPE::al_pipe_south_length);
+  cyl->set_string_param("material", "G4_Al");
+  cyl->set_double_param("thickness", G4PIPE::al_pipe_thickness);
+  cyl->SuperDetector("PIPE");
+  if (AbsorberActive) cyl->SetActive();
+  cyl->OverlapCheck(OverlapCheck);
+  g4Reco->registerSubsystem(cyl);
+
 
   radius = G4PIPE::outer_pipe_ext_radius + G4PIPE::outer_pipe_thickness;
 
