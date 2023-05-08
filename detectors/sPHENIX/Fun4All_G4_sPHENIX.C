@@ -5,10 +5,8 @@
 
 #include <DisplayOn.C>
 #include <G4Setup_sPHENIX.C>
-#include <G4_Bbc.C>
 #include <G4_CaloTrigger.C>
 #include <G4_Centrality.C>
-#include <G4_DSTReader.C>
 #include <G4_Global.C>
 #include <G4_HIJetReco.C>
 #include <G4_Input.C>
@@ -56,7 +54,7 @@ int Fun4All_G4_sPHENIX(
     const string &outdir = ".")
 {
   Fun4AllServer *se = Fun4AllServer::instance();
-  se->Verbosity(0);
+  se->Verbosity(01);
 
   //Opt to print all random seed used for debugging reproducibility. Comment out to reduce stdout prints.
   PHRandomSeed::Verbosity(1);
@@ -288,7 +286,7 @@ int Fun4All_G4_sPHENIX(
   // Enable::BBC = true;
   // Enable::BBC_SUPPORT = true; // save hist in bbc support structure
   // Enable::BBCRECO = Enable::BBC && true
-  Enable::BBCFAKE = true;  // Smeared vtx and t0, use if you don't want real BBC in simulation
+  // Enable::BBCFAKE = true;  // Smeared vtx and t0, use if you don't want real BBC in simulation
 
   Enable::PIPE = true;
   Enable::PIPE_ABSORBER = true;
@@ -330,50 +328,7 @@ int Fun4All_G4_sPHENIX(
   //  into the tracking, cannot run together with CEMC
   //  Enable::CEMCALBEDO = true;
 
-  Enable::CEMC = true;
-  Enable::CEMC_ABSORBER = true;
-  Enable::CEMC_CELL = Enable::CEMC && true;
-  Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
-  Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
-  Enable::CEMC_EVAL = Enable::CEMC_CLUSTER && true;
-  Enable::CEMC_QA = Enable::CEMC_CLUSTER && Enable::QA && true;
-
-  Enable::HCALIN = true;
-  Enable::HCALIN_ABSORBER = true;
-  Enable::HCALIN_CELL = Enable::HCALIN && true;
-  Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
-  Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
-  Enable::HCALIN_EVAL = Enable::HCALIN_CLUSTER && true;
-  Enable::HCALIN_QA = Enable::HCALIN_CLUSTER && Enable::QA && true;
-
-  Enable::MAGNET = true;
-  Enable::MAGNET_ABSORBER = true;
-
-  Enable::HCALOUT = true;
-  Enable::HCALOUT_ABSORBER = true;
-  Enable::HCALOUT_CELL = Enable::HCALOUT && true;
-  Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
-  Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
-  Enable::HCALOUT_EVAL = Enable::HCALOUT_CLUSTER && true;
-  Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER && Enable::QA && true;
-
-  Enable::EPD = true;
-  Enable::EPD_TILE = Enable::EPD && true;
-
-  Enable::BEAMLINE = true;
-//  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
-//  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
-  Enable::ZDC = true;
-//  Enable::ZDC_ABSORBER = true;
-//  Enable::ZDC_SUPPORT = true;
-  Enable::ZDC_TOWER = Enable::ZDC && true;
-  Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
-
-  //! forward flux return plug door. Out of acceptance and off by default.
-  //Enable::PLUGDOOR = true;
-  Enable::PLUGDOOR_ABSORBER = true;
-
-  Enable::GLOBAL_RECO = (Enable::BBCFAKE || Enable::TRACKING_TRACK) && true;
+  // Enable::GLOBAL_RECO = (Enable::BBCFAKE || Enable::TRACKING_TRACK) && true;
   //Enable::GLOBAL_FASTSIM = true;
 
   //Enable::KFPARTICLE = true;
@@ -453,7 +408,6 @@ int Fun4All_G4_sPHENIX(
   // Detector Division
   //------------------
 
-  if ((Enable::BBC && Enable::BBCRECO) || Enable::BBCFAKE) Bbc_Reco();
 
   if (Enable::MVTX_CELL) Mvtx_Cells();
   if (Enable::INTT_CELL) Intt_Cells();
@@ -593,8 +547,6 @@ int Fun4All_G4_sPHENIX(
   if (Enable::HCALOUT_EVAL) HCALOuter_Eval(outputroot + "_g4hcalout_eval.root");
 
   if (Enable::JETS_EVAL) Jet_Eval(outputroot + "_g4jet_eval.root");
-
-  if (Enable::DSTREADER) G4DSTreader(outputroot + "_DSTReader.root");
 
   if (Enable::USER) UserAnalysisInit();
 

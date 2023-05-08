@@ -3,7 +3,6 @@
 
 #include <GlobalVariables.C>
 
-#include <G4_Bbc.C>
 #include <G4_BlackHole.C>
 #include <G4_CEmc_Albedo.C>
 #include <G4_CEmc_Spacal.C>
@@ -57,7 +56,6 @@ void G4Init()
   if (Enable::INTT) InttInit();
   if (Enable::TPC) TPCInit();
   if (Enable::MICROMEGAS) MicromegasInit();
-  if (Enable::BBC) BbcInit();
   if (Enable::CEMCALBEDO) CEmcAlbedoInit();
   if (Enable::CEMC) CEmcInit();
   if (Enable::HCALIN) HCalInnerInit();
@@ -128,7 +126,6 @@ int G4Setup()
   if (Enable::INTT) radius = Intt(g4Reco, radius);
   if (Enable::TPC) radius = TPC(g4Reco, radius);
   if (Enable::MICROMEGAS) Micromegas(g4Reco);
-  if (Enable::BBC) Bbc(g4Reco);
   if (Enable::CEMCALBEDO) CEmcAlbedo(g4Reco);
   if (Enable::CEMC) radius = CEmc(g4Reco, radius, 8);
   if (Enable::HCALIN) radius = HCalInner(g4Reco, radius, 4);
