@@ -5,6 +5,20 @@
 //true - Choose if you want Aluminum
 const bool inner_hcal_material_Al = false;
 
+
+enum enu_HCalIn_clusterizer
+{
+  kHCalInGraphClusterizer,
+
+  kHCalInTemplateClusterizer
+};
+
+//! template clusterizer, RawClusterBuilderTemplate, as developed by Sasha Bazilevsky
+enu_HCalIn_clusterizer HCalIn_clusterizer = kHCalInTemplateClusterizer;
+//! graph clusterizer, RawClusterBuilderGraph
+//enu_HCalIn_clusterizer HCalIn_clusterizer = kHCalInGraphClusterizer;
+
+
 // Init is called by G4Setup.C
 void HCalInnerInit() {}
 
@@ -27,29 +41,40 @@ double HCalInner(PHG4Reco* g4Reco,
       cout <<"HCalInner - construct inner HCal absorber with G4_Al"<<endl;
       hcal->set_string_param("material","G4_Al");
     }
-  // hcal->set_int_param("ncross",4);
-  // hcal->set_int_param("n_scinti_tiles",12);
-  // hcal->set_int_param("light_scint_model",1);
-  // hcal->set_double_param("inner_radius",116);
-  // hcal->set_double_param("outer_radius",136);
-  // hcal->set_double_param("scinti_inner_gap",0.85);
-  // hcal->set_double_param("scinti_outer_gap",1.22);
-  // hcal->set_double_param("scinti_tile_thickness",0.7);
-  // hcal->set_double_param("scinti_gap_neighbor",0.1);
-  // the SetLightCorrection is a convenience method, no
-  // point in forcing users to set all 4 of them separately
-  // and maybe forgetting one
+  // hcal->set_double_param("inner_radius", 117.27);
+  //-----------------------------------------
+  // the light correction can be set in a single call
+  // hcal->set_double_param("light_balance_inner_corr", NAN);
+  // hcal->set_double_param("light_balance_inner_radius", NAN);
+  // hcal->set_double_param("light_balance_outer_corr", NAN);
+  // hcal->set_double_param("light_balance_outer_radius", NAN);
   // hcal->SetLightCorrection(NAN,NAN,NAN,NAN);
-  // hcal->set_double_param("place_x",0);
-  // hcal->set_double_param("place_y",0);
-  // hcal->set_double_param("place_z",0);
-  // hcal->set_double_param("rot_x",0);
-  // hcal->set_double_param("rot_y",0);
-  // hcal->set_double_param("rot_z",0);
-  // Flat plates with 4 scintillators per tower:
-  hcal->set_int_param("n_scinti_plates_per_tower",4);
-  hcal->set_double_param("scinti_outer_gap",1.22*(5.0/4.0));
+  //-----------------------------------------
+  // hcal->set_double_param("outer_radius", 134.42);
+  // hcal->set_double_param("place_x", 0.);
+  // hcal->set_double_param("place_y", 0.);
+  // hcal->set_double_param("place_z", 0.);
+  // hcal->set_double_param("rot_x", 0.);
+  // hcal->set_double_param("rot_y", 0.);
+  // hcal->set_double_param("rot_z", 0.);
+  // hcal->set_double_param("scinti_eta_coverage", 1.1);
+  // hcal->set_double_param("scinti_gap_neighbor", 0.1);
+  // hcal->set_double_param("scinti_inner_gap", 0.85);
+  // hcal->set_double_param("scinti_outer_gap", 1.22 * (5.0 / 4.0));
+  // hcal->set_double_param("scinti_outer_radius", 133.3);
+  // hcal->set_double_param("scinti_tile_thickness", 0.7);
+  // hcal->set_double_param("size_z", 175.94 * 2);
+  // hcal->set_double_param("steplimits", NAN);
+  // hcal->set_double_param("tilt_angle", 36.15);
 
+  // hcal->set_int_param("light_scint_model", 1);
+  // hcal->set_int_param("ncross", 0);
+  // hcal->set_int_param("n_towers", 64);
+  // hcal->set_int_param("n_scinti_plates_per_tower", 4);
+  // hcal->set_int_param("n_scinti_tiles", 12);
+
+  // hcal->set_string_param("material", "SS310");
+  
   hcal->SetActive();
   hcal->SuperDetector("HCALIN");
   if (absorberactive)  
@@ -131,8 +156,8 @@ void HCALInner_Cells(int verbosity = 0) {
 
 void HCALInner_Towers(int verbosity = 0) {
 
-  gSystem->Load("libfun4all.so");
-  gSystem->Load("libg4detectors.so");
+  gSystem->Load("libg4calo.so");
+  gSystem->Load("libcalo_reco.so");
   Fun4AllServer *se = Fun4AllServer::instance();
   
   HcalRawTowerBuilder *TowerBuilder = new HcalRawTowerBuilder("HcalInRawTowerBuilder");
@@ -173,16 +198,31 @@ void HCALInner_Towers(int verbosity = 0) {
 }
 
 void HCALInner_Clusters(int verbosity = 0) {
+  gSystem->Load("libcalo_reco.so");
 
-  gSystem->Load("libfun4all.so");
-  gSystem->Load("libg4detectors.so");
   Fun4AllServer *se = Fun4AllServer::instance();
   
-  RawClusterBuilder* ClusterBuilder = new RawClusterBuilder("HcalInRawClusterBuilder");
-  ClusterBuilder->Detector("HCALIN");
-  ClusterBuilder->Verbosity(verbosity);
-  se->registerSubsystem( ClusterBuilder );
-  
+  if (HCalIn_clusterizer == kHCalInTemplateClusterizer)
+  {
+    RawClusterBuilderTemplate* ClusterBuilder = new RawClusterBuilderTemplate("HcalInRawClusterBuilderTemplate");
+    ClusterBuilder->Detector("HCALIN");
+    ClusterBuilder->Verbosity(verbosity);
+    se->registerSubsystem( ClusterBuilder );
+
+  }
+  else if (HCalIn_clusterizer == kHCalInGraphClusterizer)
+  {
+    RawClusterBuilderGraph* ClusterBuilder = new RawClusterBuilderGraph("HcalInRawClusterBuilderGraph");
+    ClusterBuilder->Detector("HCALIN");
+    ClusterBuilder->Verbosity(verbosity);
+    se->registerSubsystem( ClusterBuilder );
+
+  }
+  else
+  {
+    cout <<"HCalIn_Clusters - unknown clusterizer setting!"<<endl;
+    exit(1);
+  }
   return;
 }
 

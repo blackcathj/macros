@@ -1,12 +1,10 @@
 int Fun4All_G4_EICDetector(
-                           const int nEvents = 1,
-                           const char * inputFile = "/sphenix/data/data02/review_2017-08-02/single_particle/spacal2d/fieldmap/G4Hits_sPHENIX_e-_eta0_8GeV-0002.root",
+                           const int nEvents = 2,
+                           const int nSkip = 1,
+                           const char * inputFile = "/phenix/u/jinhuang/links/sPHENIX_work/EIC/EventGen/pythia.ep.20x250.1Mevents.RadCor=0_DST.root",
                            const char * outputFile = "G4EICDetector.root"
                            )
 {
-  // Set the number of TPC layer
-  const int n_TPC_layers = 40;  // use 60 for backward compatibility only
-
   //===============
   // Input options
   //===============
@@ -44,7 +42,7 @@ int Fun4All_G4_EICDetector(
   // Use multi-particle generator (PHG4SimpleEventGenerator), see the code block below to choose particle species and kinematics
   const bool particles = false && !readhits;
   // or gun/ very simple single particle gun generator
-  const bool usegun = true && !readhits;
+  const bool usegun = false && !readhits;
   // Throw single Upsilons, may be embedded in Hijing by setting readhepmc flag also  (note, careful to set Z vertex equal to Hijing events)
   const bool upsilons = false && !readhits;
 
@@ -58,74 +56,72 @@ int Fun4All_G4_EICDetector(
   bool do_pipe = true;
 
   bool do_svtx = true;
-  bool do_svtx_cell = do_svtx && true;
+  bool do_svtx_cell = do_svtx && false;
   bool do_svtx_track = do_svtx_cell && true;
-  bool do_svtx_eval = do_svtx_track && true;
+  bool do_svtx_eval = do_svtx_track && false; // in order to use this evaluation, please build this analysis module analysis/blob/master/Tracking/FastTrackingEval/
 
   bool do_pstof = false;
 
   bool do_cemc = true;
-  bool do_cemc_cell = do_cemc && true;
+  bool do_cemc_cell = do_cemc && false;
   bool do_cemc_twr = do_cemc_cell && true;
   bool do_cemc_cluster = do_cemc_twr && true;
-  bool do_cemc_eval = do_cemc_cluster && true;
+  bool do_cemc_eval = do_cemc_cluster && false;
 
   bool do_hcalin = true;
-  bool do_hcalin_cell = do_hcalin && true;
+  bool do_hcalin_cell = do_hcalin && false;
   bool do_hcalin_twr = do_hcalin_cell && true;
   bool do_hcalin_cluster = do_hcalin_twr && true;
-  bool do_hcalin_eval = do_hcalin_cluster && true;
+  bool do_hcalin_eval = do_hcalin_cluster && false;
 
   bool do_magnet = true;
 
   bool do_hcalout = true;
-  bool do_hcalout_cell = do_hcalout && true;
+  bool do_hcalout_cell = do_hcalout && false;
   bool do_hcalout_twr = do_hcalout_cell && true;
   bool do_hcalout_cluster = do_hcalout_twr && true;
-  bool do_hcalout_eval = do_hcalout_cluster && true;
+  bool do_hcalout_eval = do_hcalout_cluster && false;
 
   // EICDetector geometry - barrel
   bool do_DIRC = true;
 
   // EICDetector geometry - 'hadron' direction
-  bool do_FGEM = true;
-  bool do_FGEM_track = do_FGEM &&  true;
-
-  bool do_RICH = true;
+  bool do_RICH = false; // gas RICH disabled for now due to duplicated G4 particle
   bool do_Aerogel = true;
 
   bool do_FEMC = true;
-  bool do_FEMC_cell = do_FEMC && true;
+  bool do_FEMC_cell = do_FEMC && false;
   bool do_FEMC_twr = do_FEMC_cell && true;
   bool do_FEMC_cluster = do_FEMC_twr && true;
-  bool do_FEMC_eval = do_FEMC_cluster && true;
+  bool do_FEMC_eval = do_FEMC_cluster && false;
 
   bool do_FHCAL = true;
-  bool do_FHCAL_cell = do_FHCAL && true;
+  bool do_FHCAL_cell = do_FHCAL && false;
   bool do_FHCAL_twr = do_FHCAL_cell && true;
   bool do_FHCAL_cluster = do_FHCAL_twr && true;
-  bool do_FHCAL_eval = do_FHCAL_cluster && true;
+  bool do_FHCAL_eval = do_FHCAL_cluster && false;
 
   // EICDetector geometry - 'electron' direction
-  bool do_EGEM = true;
-  bool do_EGEM_track = do_EGEM &&  true;
-
   bool do_EEMC = true;
-  bool do_EEMC_cell = do_EEMC && true;
+  bool do_EEMC_cell = do_EEMC && false;
   bool do_EEMC_twr = do_EEMC_cell && true;
   bool do_EEMC_cluster = do_EEMC_twr && true;
-  bool do_EEMC_eval = do_EEMC_cluster && true;
+  bool do_EEMC_eval = do_EEMC_cluster && false;
+
+  bool do_plugdoor = true;
 
   // Other options
   bool do_global = true;
-  bool do_global_fastsim = false;
+  bool do_global_fastsim = true;
 
   bool do_calotrigger = false && do_cemc_twr && do_hcalin_twr && do_hcalout_twr;
 
-  bool do_jet_reco = true;
+  // Select only one jet reconstruction- they currently use the same
+  // output collections on the node tree!
+  bool do_jet_reco = false;
   bool do_jet_eval = do_jet_reco && true;
 
-  bool do_fwd_jet_reco = true;
+  bool do_fwd_jet_reco = false;
   bool do_fwd_jet_eval = do_fwd_jet_reco && true;
 
   // HI Jet Reco for jet simulations in Au+Au (default is false for
@@ -137,7 +133,7 @@ int Fun4All_G4_EICDetector(
   bool do_dst_compress = false;
 
   //Option to convert DST to human command readable TTree for quick poke around the outputs
-  bool do_DSTReader = true;
+  bool do_DSTReader = false;
 
   //---------------
   // Load libraries
@@ -148,16 +144,15 @@ int Fun4All_G4_EICDetector(
   gSystem->Load("libphhepmc.so");
   gSystem->Load("libg4testbench.so");
   gSystem->Load("libg4hough.so");
-  gSystem->Load("libcemc.so");
   gSystem->Load("libg4eval.so");
 
   // establish the geometry and reconstruction setup
   gROOT->LoadMacro("G4Setup_EICDetector.C");
-  G4Init(do_svtx,do_cemc,do_hcalin,do_magnet,do_hcalout,do_pipe,do_FGEM,do_EGEM,do_FEMC,do_FHCAL,do_EEMC,do_DIRC,do_RICH,do_Aerogel,n_TPC_layers);
+  G4Init(do_svtx,do_cemc,do_hcalin,do_magnet,do_hcalout,do_pipe,do_plugdoor,do_FEMC,do_FHCAL,do_EEMC,do_DIRC,do_RICH,do_Aerogel);
 
   int absorberactive = 0; // set to 1 to make all absorbers active volumes
-  //  const string magfield = "1.5"; // if like float -> solenoidal field in T, if string use as fieldmap name (including path)
-  const string magfield = "/phenix/upgrades/decadal/fieldmaps/sPHENIX.2d.root"; // if like float -> solenoidal field in T, if string use as fieldmap name (including path)
+  //  const string magfield = "1.5"; // alternatively to specify a constant magnetic field, give a float number, which will be translated to solenoidal field in T, if string use as fieldmap name (including path)
+  const string magfield = string(getenv("CALIBRATIONROOT")) + string("/Field/Map/sPHENIX.2d.root"); // default map from the calibration database
   const float magfield_rescale = 1.4/1.5; // scale the map to a 1.4 T field
 
   //---------------
@@ -165,9 +160,8 @@ int Fun4All_G4_EICDetector(
   //---------------
 
   Fun4AllServer *se = Fun4AllServer::instance();
-  se->Verbosity(0); // uncomment for batch production running with minimal output messages
-  // se->Verbosity(Fun4AllServer::VERBOSITY_SOME); // uncomment for some info for interactive running
-
+//  se->Verbosity(0); // uncomment for batch production running with minimal output messages
+   se->Verbosity(Fun4AllServer::VERBOSITY_SOME); // uncomment for some info for interactive running
   // just if we set some flags somewhere in this macro
   recoConsts *rc = recoConsts::instance();
   // By default every random number generator uses
@@ -191,10 +185,7 @@ int Fun4All_G4_EICDetector(
     }
   else if (readhepmc)
     {
-      // this module is needed to read the HepMC records into our G4 sims
-      // but only if you read HepMC input files
-      HepMCNodeReader *hr = new HepMCNodeReader();
-      se->registerSubsystem(hr);
+    // action is performed in later stage at the input manager level
     }
   else if (readeictree)
     {
@@ -203,9 +194,6 @@ int Fun4All_G4_EICDetector(
       eicr->OpenInputFile(inputFile);
 
       se->registerSubsystem(eicr);
-
-      HepMCNodeReader *hr = new HepMCNodeReader();
-      se->registerSubsystem(hr);
     }
   else if (runpythia8)
     {
@@ -215,9 +203,6 @@ int Fun4All_G4_EICDetector(
       // see coresoftware/generators/PHPythia8 for example config
       pythia8->set_config_file("phpythia8.cfg");
       se->registerSubsystem(pythia8);
-
-      HepMCNodeReader *hr = new HepMCNodeReader();
-      se->registerSubsystem(hr);
     }
   else if (runpythia6)
     {
@@ -225,11 +210,10 @@ int Fun4All_G4_EICDetector(
 
       PHPythia6 *pythia6 = new PHPythia6();
       // see coresoftware/generators/PHPythia6 for example config
-      pythia6->set_config_file("phpythia6_ep.cfg");
+      pythia6->set_config_file(inputFile);
+      pythia6->set_vertex_distribution_width(0.005,0.005,1,0);
+//      pythia6->save_ascii("phpythia6.dat");
       se->registerSubsystem(pythia6);
-
-      HepMCNodeReader *hr = new HepMCNodeReader();
-      se->registerSubsystem(hr);
     }
   else if (runhepgen)
     {
@@ -242,9 +226,6 @@ int Fun4All_G4_EICDetector(
       hepgen->set_momentum_electron(-20);
       hepgen->set_momentum_hadron(250);
       se->registerSubsystem(hepgen);
-
-      HepMCNodeReader *hr = new HepMCNodeReader();
-      se->registerSubsystem(hr);
     }
   else if (runsartre)
     {
@@ -265,9 +246,6 @@ int Fun4All_G4_EICDetector(
       pTrig->PrintConfig();
       mysartre->register_trigger((PHSartreGenTrigger *)pTrig);
       se->registerSubsystem(mysartre);
-
-      HepMCNodeReader *hr = new HepMCNodeReader();
-      se->registerSubsystem(hr);
     }
 
   // If "readhepMC" is also set, the particles will be embedded in Hijing events
@@ -314,10 +292,10 @@ int Fun4All_G4_EICDetector(
       // gun->AddParticle("geantino",1.8121,0.253,0.);
       // se->registerSubsystem(gun);
       PHG4ParticleGenerator *pgen = new PHG4ParticleGenerator();
-      pgen->set_name("e-");
+      pgen->set_name("mu-");
       pgen->set_z_range(0,0);
-      pgen->set_eta_range(0.01,0.01);
-      pgen->set_mom_range(10,10);
+      pgen->set_eta_range(-4.0,0.0);
+      pgen->set_mom_range(30,30);
       pgen->set_phi_range(-1.0 * TMath::Pi(), 1.0 * TMath::Pi());
       se->registerSubsystem(pgen);
     }
@@ -373,13 +351,109 @@ int Fun4All_G4_EICDetector(
 
   if (!readhits)
     {
+
+
+
+    // read-in HepMC events to Geant4 if there is any
+    HepMCNodeReader *hr = new HepMCNodeReader();
+    se->registerSubsystem(hr);
+
+    if (1)
+    {
+      // charged particle energy-range cut off in 1mm POLYETHYLENE ~ 0.1 g/cm2
+      // electron:  ESTAR database,
+      //            Ek = 3.500E-01 MeV, CSDA Range 9.979E-02 g/cm2
+      //            Ek = 1 MeV, CSDA Range 4.155E-01 g/cm2
+      // proton:    PSTAR database,
+      //            Ek = 9.500E+00 MeV, CSDA Range 1.029E-01  g/cm2
+      //            Ek = 1 MeV, CSDA Range 2.112E-03 g/cm2
+
+      gSystem->Load("libg4testbench.so");
+      // G4 scoring based flux analysis
+
+      PHG4ScoringManager *g4score = new PHG4ScoringManager();
+      g4score->setOutputFileName(string(outputFile) + "_g4score.root");
+      g4score->Verbosity(1);
+
+      g4score->G4Command("/score/create/cylinderMesh FullCylinder");
+      // given in dr dz
+      g4score->G4Command("/score/mesh/cylinderSize 280. 450. cm");
+      //    00118   //   Division command
+      //    00119   mBinCmd = new G4UIcommand("/score/mesh/nBin",this);
+      //    00120   mBinCmd->SetGuidance("Define segments of the scoring mesh.");
+      //    00121   mBinCmd->SetGuidance("[usage] /score/mesh/nBin");
+      //    00122   mBinCmd->SetGuidance(" In case of boxMesh, parameters are given in");
+      //    00123   mBinCmd->SetGuidance("   Ni  :(int) Number of bins i (in x-axis) ");
+      //    00124   mBinCmd->SetGuidance("   Nj  :(int) Number of bins j (in y-axis) ");
+      //    00125   mBinCmd->SetGuidance("   Nk  :(int) Number of bins k (in z-axis) ");
+      //    00126   mBinCmd->SetGuidance(" In case of cylinderMesh, parameters are given in");
+      //    00127   mBinCmd->SetGuidance("   Nr  :(int) Number of bins in radial axis ");
+      //    00128   mBinCmd->SetGuidance("   Nz  :(int) Number of bins in z axis ");
+      //    00129   mBinCmd->SetGuidance("   Nphi:(int) Number of bins in phi axis ");
+      g4score->G4Command("/score/mesh/nBin 140 450 8");
+
+      g4score->G4Command("/score/quantity/energyDeposit edep");
+
+      g4score->G4Command("/score/quantity/doseDeposit dose");
+
+      g4score->G4Command("/score/quantity/cellFlux flux_charged");
+      g4score->G4Command("/score/filter/charged");
+
+      g4score->G4Command("/score/quantity/cellFlux flux_charged_EkMin1MeV");
+      g4score->G4Command("/score/filter/particleWithKineticEnergy charged_EkMin1MeV 1 1000000 MeV pi+ pi- kaon+ kaon- proton anti_proton mu+  mu-  e+  e-  alpha");
+
+      g4score->G4Command("/score/quantity/cellFlux flux_charged_EkMin20MeV");
+      g4score->G4Command("/score/filter/particleWithKineticEnergy charged_EkMin20MeV 20 1000000 MeV pi+ pi- kaon+ kaon- proton anti_proton mu+  mu-  e+  e-  alpha");
+
+      g4score->G4Command("/score/quantity/cellFlux flux_neutron");
+      g4score->G4Command("/score/filter/particle filter_neutron neutron anti_neutron");
+
+      g4score->G4Command("/score/quantity/cellFlux flux_neutron_EkMin100keV");
+      g4score->G4Command("/score/filter/particleWithKineticEnergy HEneutronFilter 0.1 7000000 MeV neutron");
+
+      g4score->G4Command("/score/quantity/cellFlux flux_neutron_EkMin1MeV");
+      g4score->G4Command("/score/filter/particleWithKineticEnergy HEneutronFilter1MeV 1 7000000 MeV neutron");
+
+      g4score->G4Command("/score/close");
+
+      // inner detector zoom-in
+//      g4score->G4Command("/score/create/cylinderMesh VertexCylinder");
+//      g4score->G4Command("/score/mesh/cylinderSize 20. 10. cm");
+//      g4score->G4Command("/score/mesh/nBin 200 10 256");
+//
+//      g4score->G4Command("/score/quantity/energyDeposit edep");
+//
+//      g4score->G4Command("/score/quantity/doseDeposit dose");
+//
+//      g4score->G4Command("/score/quantity/cellFlux flux_charged");
+//      g4score->G4Command("/score/filter/charged");
+//
+//      g4score->G4Command("/score/quantity/cellFlux flux_charged_EkMin1MeV");
+////      g4score->G4Command("/score/filter/charged");
+//      g4score->G4Command("/score/filter/particleWithKineticEnergy charged_EkMin1MeV 1 1000000 MeV pi+ pi- kaon+ kaon- proton anti_proton mu+  mu-  e+  e-  alpha");
+//
+//      g4score->G4Command("/score/quantity/cellFlux flux_charged_EkMin20MeV");
+//      g4score->G4Command("/score/filter/particleWithKineticEnergy charged_EkMin20MeV 20 1000000 MeV pi+ pi- kaon+ kaon- proton anti_proton mu+  mu-  e+  e-  alpha");
+//
+//      g4score->G4Command("/score/quantity/cellFlux flux_neutron");
+//      g4score->G4Command("/score/filter/particle filter_neutron neutron anti_neutron");
+//
+//      g4score->G4Command("/score/quantity/cellFlux flux_neutron_EkMin100keV");
+//      g4score->G4Command("/score/filter/particleWithKineticEnergy HEneutronFilter 0.1 7000000 MeV neutron");
+//
+//      g4score->G4Command("/score/close");
+
+      se->registerSubsystem(g4score);
+    }
+
+
       //---------------------
       // Detector description
       //---------------------
 
       G4Setup(absorberactive, magfield, TPythia6Decayer::kAll,
-              do_svtx,do_cemc,do_hcalin,do_magnet,do_hcalout,do_pipe,
-              do_FGEM,do_EGEM,do_FEMC,do_FHCAL,do_EEMC,do_DIRC,do_RICH,do_Aerogel,
+              do_svtx,do_cemc,do_hcalin,do_magnet,do_hcalout,do_pipe,do_plugdoor,
+              do_FEMC,do_FHCAL,do_EEMC,do_DIRC,do_RICH,do_Aerogel,
               magfield_rescale);
 
     }
@@ -449,19 +523,7 @@ int Fun4All_G4_EICDetector(
   // SVTX tracking
   //--------------
 
-  if (do_svtx_track) Svtx_Reco();
-
-  //--------------
-  // FGEM tracking
-  //--------------
-
-  if(do_FGEM_track) FGEM_FastSim_Reco();
-
-  //--------------
-  // EGEM tracking
-  //--------------
-
-  if(do_EGEM_track) EGEM_FastSim_Reco();
+  if (do_svtx_track) Tracking_Reco();
 
   //-----------------
   // Global Vertexing
@@ -514,7 +576,7 @@ int Fun4All_G4_EICDetector(
   // Simulation evaluation
   //----------------------
 
-  if (do_svtx_eval) Svtx_Eval(string(outputFile) + "_g4svtx_eval.root");
+  if (do_svtx_eval) Fast_Tracking_Eval(string(outputFile) + "_g4svtx_eval.root");
 
   if (do_cemc_eval) CEMC_Eval(string(outputFile) + "_g4cemc_eval.root");
 
@@ -536,7 +598,7 @@ int Fun4All_G4_EICDetector(
   // IO management
   //--------------
 
-  if (readhits)
+//  if (readhits)
     {
       // Hits file
       Fun4AllInputManager *hitsin = new Fun4AllDstInputManager("DSTin");
@@ -573,8 +635,6 @@ int Fun4All_G4_EICDetector(
                                /*bool*/ do_hcalin_twr ,
                                /*bool*/ do_magnet  ,
                                /*bool*/ do_hcalout_twr,
-                               /*bool*/ do_FGEM,
-                               /*bool*/ do_EGEM,
                                /*bool*/ do_FHCAL,
                                /*bool*/ do_FHCAL_twr,
                                /*bool*/ do_FEMC,
@@ -584,9 +644,9 @@ int Fun4All_G4_EICDetector(
                                );
     }
 
-  //Fun4AllDstOutputManager *out = new Fun4AllDstOutputManager("DSTOUT", outputFile);
-  //if (do_dst_compress) DstCompress(out);
-  //se->registerOutputManager(out);
+//  Fun4AllDstOutputManager *out = new Fun4AllDstOutputManager("DSTOUT", outputFile);
+//  if (do_dst_compress) DstCompress(out);
+//  se->registerOutputManager(out);
 
   //-----------------
   // Event processing
@@ -603,6 +663,7 @@ int Fun4All_G4_EICDetector(
       return;
     }
 
+  se->skip(nSkip);
   se->run(nEvents);
 
   //-----
@@ -610,6 +671,7 @@ int Fun4All_G4_EICDetector(
   //-----
 
   se->End();
+//  se->PrintTimer();
   std::cout << "All done" << std::endl;
   delete se;
   gSystem->Exit(0);
