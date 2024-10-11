@@ -48,7 +48,7 @@ R__LOAD_LIBRARY(libffamodules.so)
 // try inputFile = /sphenix/sim/sim01/sphnxpro/sHijing_HepMC/sHijing_0-12fm.dat
 
 int Fun4All_G4_sPHENIX(
-    const int nEvents = 1,
+    const int nEvents = 2,
     const string &inputFile = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
     const string &outputFile = "G4sPHENIX.root",
     const string &embed_input_file = "https://www.phenix.bnl.gov/WWW/publish/phnxbld/sPHENIX/files/sPHENIX_G4Hits_sHijing_9-11fm_00000_00010.root",
@@ -56,7 +56,7 @@ int Fun4All_G4_sPHENIX(
     const string &outdir = ".")
 {
   Fun4AllServer *se = Fun4AllServer::instance();
-  se->Verbosity(0);
+  se->Verbosity(2);
 
   //Opt to print all random seed used for debugging reproducibility. Comment out to reduce stdout prints.
   PHRandomSeed::Verbosity(1);
@@ -71,7 +71,7 @@ int Fun4All_G4_sPHENIX(
   // this would be:
   //  rc->set_IntFlag("RANDOMSEED",PHRandomSeed());
   // or set it to a fixed value so you can debug your code
-  //  rc->set_IntFlag("RANDOMSEED", 12345);
+   rc->set_IntFlag("RANDOMSEED", 12345);
 
 
   //===============
@@ -99,7 +99,7 @@ int Fun4All_G4_sPHENIX(
   // if you use a filelist
   //INPUTEMBED::listfile[0] = embed_input_file;
 
-  Input::SIMPLE = true;
+  // Input::SIMPLE = true;
   // Input::SIMPLE_NUMBER = 2; // if you need 2 of them
   // Input::SIMPLE_VERBOSITY = 1;
 
@@ -110,9 +110,9 @@ int Fun4All_G4_sPHENIX(
 
   // Input::PYTHIA8 = true;
 
-  //  Input::GUN = true;
+   Input::GUN = true;
   //  Input::GUN_NUMBER = 3; // if you need 3 of them
-  // Input::GUN_VERBOSITY = 1;
+  Input::GUN_VERBOSITY = 1;
 
   // Input::COSMIC = true;
 
@@ -203,8 +203,37 @@ int Fun4All_G4_sPHENIX(
   // add the settings for other with [1], next with [2]...
   if (Input::GUN)
   {
-    INPUTGENERATOR::Gun[0]->AddParticle("pi-", 0, 1, 0);
-    INPUTGENERATOR::Gun[0]->set_vtx(0, 0, 0);
+    INPUTGENERATOR::Gun[0]->AddParticle(1000791970, 0, 0, 19700);
+    INPUTGENERATOR::Gun[0]->set_vtx(-3.264547, 0.5698622, -30);
+
+//     root [6] T->Scan("G4HIT_MVTX.get_avg_x():G4HIT_MVTX.get_avg_y():G4HIT_MVTX.get_avg_z()")
+// ***********************************************************
+// *    Row   * Instance * G4HIT_MVT * G4HIT_MVT * G4HIT_MVT *
+// ***********************************************************
+// *        0 *        0 * -1.967734 * 1.4830412 * 1.2562158 *
+// *        0 *        1 * -2.091026 * 1.2933914 * 1.4258232 *
+// *        0 *        2 * -2.394116 * 1.2742183 * 1.8434416 *
+// *        0 *        3 * -1.940449 * -1.670369 * 8.5525865 *
+// *        0 *        4 * -1.930323 * -1.676953 * 12.524578 *
+// *        0 *        5 * -1.709880 * -1.820264 * 13.076528 *
+// *        0 *        6 * -1.860798 * -1.723940 * 12.747782 *
+// *        0 *        7 * -1.914259 * -1.687396 * 8.4409828 *
+// *        0 *        8 * -2.527119 * -0.453846 * 10.335702 *
+// *        0 *        9 * -2.262398 * -1.461068 * 10.967584 *
+// *        0 *       10 * -0.651987 * -2.427033 * -2.954134 *
+// *        0 *       11 * 1.8908639 * 1.7026059 * -3.609284 *
+// *        0 *       12 * 0.8825402 * -2.308954 * -3.838427 *
+// *        0 *       13 * 1.6281182 * -2.005441 * -1.487183 *
+// *        0 *       14 * -2.715065 * 2.0469441 * 2.1144514 *
+// *        0 *       15 * -2.697699 * 2.1037454 * 2.1511311 *
+// *        0 *       16 * -3.264547 * 0.5698622 * 3.7808380 *
+// *        0 *       17 * -3.524996 * -0.175752 * 5.0003328 *
+// *        0 *       18 * -0.882708 * -3.294670 * -3.652637 *
+// *        0 *       19 * 2.3995742 * 2.1624295 * -4.311552 *
+// *        0 *       20 * 1.1514844 * -3.006194 * -4.696102 *
+// *        0 *       21 * 2.0553479 * -2.529474 * -1.614585 *
+// *        0 *       22 * -3.204676 * 2.4161872 * 2.6766057 *
+// *        0 *       23 * -1.109905 * -4.149970 * -4.341147 *
   }
 
   // pythia6
@@ -285,10 +314,10 @@ int Fun4All_G4_sPHENIX(
   DstOut::OutputFile = outputFile;
 
   //Option to convert DST to human command readable TTree for quick poke around the outputs
-  //  Enable::DSTREADER = true;
+   Enable::DSTREADER = true;
 
   // turn the display on (default off)
-   //Enable::DISPLAY = true;
+   Enable::DISPLAY = true;
 
   //======================
   // What to run
@@ -312,37 +341,37 @@ int Fun4All_G4_sPHENIX(
 
   // central tracking
   Enable::MVTX = true;
-  Enable::MVTX_CELL = Enable::MVTX && true;
-  Enable::MVTX_CLUSTER = Enable::MVTX_CELL && true;
-  Enable::MVTX_QA = Enable::MVTX_CLUSTER && Enable::QA && true;
+  // Enable::MVTX_CELL = Enable::MVTX && true;
+  // Enable::MVTX_CLUSTER = Enable::MVTX_CELL && true;
+  // Enable::MVTX_QA = Enable::MVTX_CLUSTER && Enable::QA && true;
 
-  Enable::INTT = true;
-//  Enable::INTT_ABSORBER = true; // enables layerwise support structure readout
-//  Enable::INTT_SUPPORT = true; // enable global support structure readout
-  Enable::INTT_CELL = Enable::INTT && true;
-  Enable::INTT_CLUSTER = Enable::INTT_CELL && true;
-  Enable::INTT_QA = Enable::INTT_CLUSTER && Enable::QA && true;
+//   Enable::INTT = true;
+// //  Enable::INTT_ABSORBER = true; // enables layerwise support structure readout
+// //  Enable::INTT_SUPPORT = true; // enable global support structure readout
+//   Enable::INTT_CELL = Enable::INTT && true;
+//   Enable::INTT_CLUSTER = Enable::INTT_CELL && true;
+//   Enable::INTT_QA = Enable::INTT_CLUSTER && Enable::QA && true;
 
-  Enable::TPC = true;
-  Enable::TPC_ABSORBER = true;
-  Enable::TPC_CELL = Enable::TPC && true;
-  Enable::TPC_CLUSTER = Enable::TPC_CELL && true;
-  Enable::TPC_QA = Enable::TPC_CLUSTER && Enable::QA && true;
+//   Enable::TPC = true;
+//   Enable::TPC_ABSORBER = true;
+//   Enable::TPC_CELL = Enable::TPC && true;
+//   Enable::TPC_CLUSTER = Enable::TPC_CELL && true;
+//   Enable::TPC_QA = Enable::TPC_CLUSTER && Enable::QA && true;
 
-  Enable::MICROMEGAS = true;
-  Enable::MICROMEGAS_CELL = Enable::MICROMEGAS && true;
-  Enable::MICROMEGAS_CLUSTER = Enable::MICROMEGAS_CELL && true;
-  Enable::MICROMEGAS_QA = Enable::MICROMEGAS_CLUSTER && Enable::QA && true;
+//   Enable::MICROMEGAS = true;
+//   Enable::MICROMEGAS_CELL = Enable::MICROMEGAS && true;
+//   Enable::MICROMEGAS_CLUSTER = Enable::MICROMEGAS_CELL && true;
+//   Enable::MICROMEGAS_QA = Enable::MICROMEGAS_CLUSTER && Enable::QA && true;
 
-  Enable::TRACKING_TRACK = (Enable::MICROMEGAS_CLUSTER && Enable::TPC_CLUSTER && Enable::INTT_CLUSTER && Enable::MVTX_CLUSTER) && true;
-  Enable::GLOBAL_RECO = (Enable::MBDFAKE || Enable::MBDRECO || Enable::TRACKING_TRACK) && true;
-  Enable::TRACKING_EVAL = Enable::TRACKING_TRACK && Enable::GLOBAL_RECO && true;
-  Enable::TRACKING_QA = Enable::TRACKING_TRACK && Enable::QA && true;
+//   Enable::TRACKING_TRACK = (Enable::MICROMEGAS_CLUSTER && Enable::TPC_CLUSTER && Enable::INTT_CLUSTER && Enable::MVTX_CLUSTER) && true;
+//   Enable::GLOBAL_RECO = (Enable::MBDFAKE || Enable::MBDRECO || Enable::TRACKING_TRACK) && true;
+//   Enable::TRACKING_EVAL = Enable::TRACKING_TRACK && Enable::GLOBAL_RECO && true;
+//   Enable::TRACKING_QA = Enable::TRACKING_TRACK && Enable::QA && true;
 
-  // only do track matching if TRACKINGTRACK is also used
-  Enable::TRACK_MATCHING = Enable::TRACKING_TRACK && false;
-  Enable::TRACK_MATCHING_TREE = Enable::TRACK_MATCHING && false;
-  Enable::TRACK_MATCHING_TREE_CLUSTERS = Enable::TRACK_MATCHING_TREE && false;
+//   // only do track matching if TRACKINGTRACK is also used
+//   Enable::TRACK_MATCHING = Enable::TRACKING_TRACK && false;
+//   Enable::TRACK_MATCHING_TREE = Enable::TRACK_MATCHING && false;
+//   Enable::TRACK_MATCHING_TREE_CLUSTERS = Enable::TRACK_MATCHING_TREE && false;
 
   //Additional tracking tools
   //Enable::TRACKING_DIAGNOSTICS = Enable::TRACKING_TRACK && true;
@@ -364,48 +393,48 @@ int Fun4All_G4_sPHENIX(
   //  into the tracking, cannot run together with CEMC
   //  Enable::CEMCALBEDO = true;
 
-  Enable::CEMC = true;
-  Enable::CEMC_ABSORBER = true;
-  Enable::CEMC_CELL = Enable::CEMC && true;
-  Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
-  Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
-  Enable::CEMC_EVAL = Enable::CEMC_G4Hit && Enable::CEMC_CLUSTER && true;
-  Enable::CEMC_QA = Enable::CEMC_CLUSTER && Enable::QA && true;
+  // Enable::CEMC = true;
+  // Enable::CEMC_ABSORBER = true;
+  // Enable::CEMC_CELL = Enable::CEMC && true;
+  // Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
+  // Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
+  // Enable::CEMC_EVAL = Enable::CEMC_G4Hit && Enable::CEMC_CLUSTER && true;
+  // Enable::CEMC_QA = Enable::CEMC_CLUSTER && Enable::QA && true;
 
-  Enable::HCALIN = true;
-  Enable::HCALIN_ABSORBER = true;
-  Enable::HCALIN_CELL = Enable::HCALIN && true;
-  Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
-  Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
-  Enable::HCALIN_EVAL = Enable::HCALIN_G4Hit && Enable::HCALIN_CLUSTER && true;
-  Enable::HCALIN_QA = Enable::HCALIN_CLUSTER && Enable::QA && true;
+  // Enable::HCALIN = true;
+  // Enable::HCALIN_ABSORBER = true;
+  // Enable::HCALIN_CELL = Enable::HCALIN && true;
+  // Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
+  // Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
+  // Enable::HCALIN_EVAL = Enable::HCALIN_G4Hit && Enable::HCALIN_CLUSTER && true;
+  // Enable::HCALIN_QA = Enable::HCALIN_CLUSTER && Enable::QA && true;
 
-  Enable::MAGNET = true;
-  Enable::MAGNET_ABSORBER = true;
+  // Enable::MAGNET = true;
+  // Enable::MAGNET_ABSORBER = true;
 
-  Enable::HCALOUT = true;
-  Enable::HCALOUT_ABSORBER = true;
-  Enable::HCALOUT_CELL = Enable::HCALOUT && true;
-  Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
-  Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
-  Enable::HCALOUT_EVAL = Enable::HCALOUT_G4Hit && Enable::HCALOUT_CLUSTER && true;
-  Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER && Enable::QA && true;
+  // Enable::HCALOUT = true;
+  // Enable::HCALOUT_ABSORBER = true;
+  // Enable::HCALOUT_CELL = Enable::HCALOUT && true;
+  // Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
+  // Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
+  // Enable::HCALOUT_EVAL = Enable::HCALOUT_G4Hit && Enable::HCALOUT_CLUSTER && true;
+  // Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER && Enable::QA && true;
 
-  Enable::EPD = true;
-  Enable::EPD_TILE = Enable::EPD && true;
+  // Enable::EPD = true;
+  // Enable::EPD_TILE = Enable::EPD && true;
 
-  Enable::BEAMLINE = true;
-  //  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
-  //  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
-  Enable::ZDC = true;
-  //  Enable::ZDC_ABSORBER = true;
-  //  Enable::ZDC_SUPPORT = true;
-  Enable::ZDC_TOWER = Enable::ZDC && true;
-  Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
+  // Enable::BEAMLINE = true;
+  // //  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
+  // //  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
+  // Enable::ZDC = true;
+  // //  Enable::ZDC_ABSORBER = true;
+  // //  Enable::ZDC_SUPPORT = true;
+  // Enable::ZDC_TOWER = Enable::ZDC && true;
+  // Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
 
-  //! forward flux return plug door. Out of acceptance and off by default.
-  //Enable::PLUGDOOR = true;
-  Enable::PLUGDOOR_ABSORBER = true;
+  // //! forward flux return plug door. Out of acceptance and off by default.
+  // //Enable::PLUGDOOR = true;
+  // Enable::PLUGDOOR_ABSORBER = true;
 
  //Enable::GLOBAL_FASTSIM = true;
 
@@ -414,23 +443,23 @@ int Fun4All_G4_sPHENIX(
   //Enable::KFPARTICLE_TRUTH_MATCH = true;
   //Enable::KFPARTICLE_SAVE_NTUPLE = true;
 
-  Enable::CALOTRIGGER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
+  // Enable::CALOTRIGGER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
 
-  Enable::JETS = (Enable::GLOBAL_RECO || Enable::GLOBAL_FASTSIM) && true;
-  Enable::JETS_EVAL = Enable::JETS && true;
-  Enable::JETS_QA = Enable::JETS && Enable::QA && true;
+  // Enable::JETS = (Enable::GLOBAL_RECO || Enable::GLOBAL_FASTSIM) && true;
+  // Enable::JETS_EVAL = Enable::JETS && true;
+  // Enable::JETS_QA = Enable::JETS && Enable::QA && true;
 
-  // HI Jet Reco for p+Au / Au+Au collisions (default is false for
-  // single particle / p+p-only simulations, or for p+Au / Au+Au
-  // simulations which don't particularly care about jets)
-  Enable::HIJETS = Enable::JETS && Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
+  // // HI Jet Reco for p+Au / Au+Au collisions (default is false for
+  // // single particle / p+p-only simulations, or for p+Au / Au+Au
+  // // simulations which don't particularly care about jets)
+  // Enable::HIJETS = Enable::JETS && Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
 
-  // 3-D topoCluster reconstruction, potentially in all calorimeter layers
-  Enable::TOPOCLUSTER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
-  // particle flow jet reconstruction - needs topoClusters!
-  Enable::PARTICLEFLOW = Enable::TOPOCLUSTER && true;
-  // centrality reconstruction
-  Enable::CENTRALITY = true;
+  // // 3-D topoCluster reconstruction, potentially in all calorimeter layers
+  // Enable::TOPOCLUSTER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
+  // // particle flow jet reconstruction - needs topoClusters!
+  // Enable::PARTICLEFLOW = Enable::TOPOCLUSTER && true;
+  // // centrality reconstruction
+  // Enable::CENTRALITY = true;
 
   // new settings using Enable namespace in GlobalVariables.C
   Enable::BLACKHOLE = true;
@@ -452,7 +481,7 @@ int Fun4All_G4_sPHENIX(
   //---------------
   // World Settings
   //---------------
-  //  G4WORLD::PhysicsList = "FTFP_BERT"; //FTFP_BERT_HP best for calo
+   G4WORLD::PhysicsList = "FTFP_BERT_HP"; //FTFP_BERT_HP best for calo
   //  G4WORLD::WorldMaterial = "G4_AIR"; // set to G4_GALACTIC for material scans
 
   //---------------
