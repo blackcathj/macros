@@ -30,12 +30,12 @@ R__LOAD_LIBRARY(libffarawmodules.so)
 
 bool isGood(const string &infile); 
 
-void Fun4All_TPC_SingleStream_Combiner(int nEvents = 1000,
-                                       const int runnumber = 53738,
+void Fun4All_TPC_SingleStream_Combiner(int nEvents = 3000000,
+                                       const int runnumber = 53876,
                                        const string &outdir = "./data",
                                        const string &type = "streaming",
-                                       const string &input_gl1file = "gl1daq.list",
-                                       const string &input_tpcfile00 = "tpc00.list")
+                                       const string &input_gl1file = "/phenix/u/jinhuang/links/sPHENIX_work/TPC/StreamingComnineTest/gl1daq-00053876.list",
+                                       const string &input_tpcfile00 = "/phenix/u/jinhuang/links/sPHENIX_work/TPC/StreamingComnineTest/TPC_ebdc18_physics-00053876.list")
 {
   // GL1 which provides the beam clock reference (if we ran with GL1)
   vector<string> gl1_infile;
@@ -97,7 +97,9 @@ void Fun4All_TPC_SingleStream_Combiner(int nEvents = 1000,
       SingleTpcTimeFrameInput *tpc_sngl = new SingleTpcTimeFrameInput("SingleTpcTimeFrameInput_" + to_string(i));
       tpc_sngl->setHitContainerName("TPCRAWHIT_" + ebdc);
       tpc_sngl->AddListFile(iter);
-      // tpc_sngl->Verbosity(1);
+      tpc_sngl->Verbosity(1);
+      tpc_sngl->AddPacketID(4180);
+
       in->registerStreamingInput(tpc_sngl, InputManagerType::TPC);
       
       i++;
@@ -125,10 +127,13 @@ void Fun4All_TPC_SingleStream_Combiner(int nEvents = 1000,
   FlagHandler *flag = new FlagHandler();
   se->registerSubsystem(flag);
 
-  char outfile[500];
-  sprintf(outfile, "%s/%s-%s.root",  outdir.c_str(), type.c_str(),readoutNumber.c_str());
+  char outfile[500];  
+  sprintf(outfile, "%s/DST_%s-%s.root", outdir.c_str(), type.c_str(), readoutNumber.c_str());
+  // sprintf(outfile, "%s/%s-%s.root",  outdir.c_str(), type.c_str(),readoutNumber.c_str());
 
   Fun4AllOutputManager *out = new Fun4AllDstOutputManager("out", outfile);
+  out->UseFileRule();
+  out->SetNEvents(100000);
   se->registerOutputManager(out);
 
   if (nEvents < 0)
