@@ -15,9 +15,12 @@ fi
 type=$1
 runnumber=$(printf "%08d" $2)
 
-/bin/ls -1 /sphenix/lustre01/sphnxpro/physics/GL1/${type}/GL1_*-${runnumber}-* >gl1daq.list
-if [ ! -s gl1daq.list ]
+/bin/ls -1 /sphenix/lustre01/sphnxpro/physics/GL1/${type}/GL1_*-${runnumber}-* > data/gl1daq-${runnumber}.list
+if [ ! -s data/gl1daq-${runnumber}.list ]
 then
-  echo gl1daq.list empty, removing it
-  rm  gl1daq.list
+  echo data/gl1daq-${runnumber}.list empty, removing it
+  rm  data/gl1daq-${runnumber}.list
+else
+  echo "Created data/gl1daq-${runnumber}.list with contents:"
+  cat data/gl1daq-${runnumber}.list
 fi

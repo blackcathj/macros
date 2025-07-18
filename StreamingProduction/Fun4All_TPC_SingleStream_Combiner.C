@@ -30,12 +30,18 @@ R__LOAD_LIBRARY(libffarawmodules.so)
 
 bool isGood(const string &infile); 
 
-void Fun4All_TPC_SingleStream_Combiner(int nEvents = 3000000,
-                                       const int runnumber = 53876,
+// void Fun4All_TPC_SingleStream_Combiner(int nEvents = 5,
+//                                        const int runnumber = 68424,
+//                                        const string &outdir = "./data",
+//                                        const string &type = "streaming",
+//                                        const string &input_gl1file = "data/gl1daq-00068424.list",
+//                                        const string &input_tpcfile00 = "data/tpc-00068424-00_0.list")
+void Fun4All_TPC_SingleStream_Combiner(int nEvents = 2000,
+                                       const int runnumber = 69260,
                                        const string &outdir = "./data",
                                        const string &type = "streaming",
-                                       const string &input_gl1file = "/phenix/u/jinhuang/links/sPHENIX_work/TPC/StreamingComnineTest/gl1daq-00053876.list",
-                                       const string &input_tpcfile00 = "/phenix/u/jinhuang/links/sPHENIX_work/TPC/StreamingComnineTest/TPC_ebdc18_physics-00053876.list")
+                                       const string &input_gl1file = "data/gl1daq-00069260.list",
+                                       const string &input_tpcfile00 = "data/tpc-00069260-05_1.list")
 {
   // GL1 which provides the beam clock reference (if we ran with GL1)
   vector<string> gl1_infile;
@@ -97,8 +103,9 @@ void Fun4All_TPC_SingleStream_Combiner(int nEvents = 3000000,
       SingleTpcTimeFrameInput *tpc_sngl = new SingleTpcTimeFrameInput("SingleTpcTimeFrameInput_" + to_string(i));
       tpc_sngl->setHitContainerName("TPCRAWHIT_" + ebdc);
       tpc_sngl->AddListFile(iter);
+      tpc_sngl->setDigitalCurrentDebugTTreeName(iter + "_DigitalCurrentDebugTTree.root");
       tpc_sngl->Verbosity(1);
-      tpc_sngl->AddPacketID(4180);
+      // tpc_sngl->AddPacketID(4180);
 
       in->registerStreamingInput(tpc_sngl, InputManagerType::TPC);
       
@@ -135,6 +142,8 @@ void Fun4All_TPC_SingleStream_Combiner(int nEvents = 3000000,
   out->UseFileRule();
   out->SetNEvents(100000);
   se->registerOutputManager(out);
+
+  gSystem->ListLibraries();
 
   if (nEvents < 0)
   {
