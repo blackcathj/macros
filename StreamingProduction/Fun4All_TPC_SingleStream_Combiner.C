@@ -36,12 +36,18 @@ bool isGood(const string &infile);
 //                                        const string &type = "streaming",
 //                                        const string &input_gl1file = "data/gl1daq-00068424.list",
 //                                        const string &input_tpcfile00 = "data/tpc-00068424-00_0.list")
-void Fun4All_TPC_SingleStream_Combiner(int nEvents = 2000,
-                                       const int runnumber = 69260,
+// void Fun4All_TPC_SingleStream_Combiner(int nEvents = 100000,
+//                                        const int runnumber = 69260,
+//                                        const string &outdir = "./data",
+//                                        const string &type = "streaming",
+//                                        const string &input_gl1file = "data/gl1daq-00069260.list",
+//                                        const string &input_tpcfile00 = "data/tpc-00069260-05_1.list")
+void Fun4All_TPC_SingleStream_Combiner(int nEvents = 100,
+                                       const int runnumber = 69413,
                                        const string &outdir = "./data",
                                        const string &type = "streaming",
-                                       const string &input_gl1file = "data/gl1daq-00069260.list",
-                                       const string &input_tpcfile00 = "data/tpc-00069260-05_1.list")
+                                       const string &input_gl1file = "data/gl1daq-00069413.list",
+                                       const string &input_tpcfile00 = "data/tpc-00069413-17_1.list")
 {
   // GL1 which provides the beam clock reference (if we ran with GL1)
   vector<string> gl1_infile;
