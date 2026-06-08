@@ -3,6 +3,7 @@
 #include <fun4all/Fun4AllDstOutputManager.h>
 #include <fun4all/Fun4AllInputManager.h>
 #include <fun4all/Fun4AllOutputManager.h>
+#include <fun4all/PHTFileServer.h>
 #include <fun4all/Fun4AllServer.h>
 #include <fun4allraw/Fun4AllStreamingInputManager.h>
 #include <fun4allraw/InputManagerType.h>
@@ -42,12 +43,18 @@ bool isGood(const string &infile);
 //                                        const string &type = "streaming",
 //                                        const string &input_gl1file = "data/gl1daq-00069260.list",
 //                                        const string &input_tpcfile00 = "data/tpc-00069260-05_1.list")
-void Fun4All_TPC_SingleStream_Combiner(int nEvents = 100,
-                                       const int runnumber = 69413,
+// void Fun4All_TPC_SingleStream_Combiner(int nEvents = 100,
+//                                        const int runnumber = 69413,
+//                                        const string &outdir = "./data",
+//                                        const string &type = "streaming",
+//                                        const string &input_gl1file = "data/gl1daq-00069413.list",
+//                                        const string &input_tpcfile00 = "data/tpc-00069413-17_1.list")
+void Fun4All_TPC_SingleStream_Combiner(int nEvents = 5e5,
+                                       const int runnumber = 79523,
                                        const string &outdir = "./data",
                                        const string &type = "streaming",
-                                       const string &input_gl1file = "data/gl1daq-00069413.list",
-                                       const string &input_tpcfile00 = "data/tpc-00069413-17_1.list")
+                                       const string &input_gl1file = "data/gl1daq-00079523.list",
+                                       const string &input_tpcfile00 = "data/tpc-00079523-13_0.list")
 {
   // GL1 which provides the beam clock reference (if we ran with GL1)
   vector<string> gl1_infile;
@@ -59,8 +66,10 @@ void Fun4All_TPC_SingleStream_Combiner(int nEvents = 100,
   Fun4AllServer *se = Fun4AllServer::instance();
   se->Verbosity(1);
   recoConsts *rc = recoConsts::instance();
-  rc -> set_StringFlag("CDB_GLOBALTAG", "ProdA_2024"); // needed for QA output
+  // rc -> set_StringFlag("CDB_GLOBALTAG", "ProdA_2024"); // needed for QA output
+  rc -> set_StringFlag("CDB_GLOBALTAG", "newcdbtag");
   rc -> set_IntFlag("RUNNUMBER", runnumber); // needed only during testing
+  rc->set_uint64Flag("TIMESTAMP",runnumber);
   Fun4AllStreamingInputManager *in = new Fun4AllStreamingInputManager("Comb");
   //  in->Verbosity(3);
 
@@ -166,6 +175,7 @@ void Fun4All_TPC_SingleStream_Combiner(int nEvents = 100,
   QAHistManagerDef::saveQARootFile(histoutfile);
 
   delete se;
+  PHTFileServer::close();
   cout << "all done" << endl;
   gSystem->Exit(0);
 }

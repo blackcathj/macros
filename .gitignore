@@ -90,3 +90,15 @@ tmtags
 # valgrind
 *.valgrind
 *.log
+
+callgrind*
+*.valgrind
+*.log*
+*.png
+massif.*
+*.svg
+*.callgrind
+*.json
+data/
+data
+*.csv

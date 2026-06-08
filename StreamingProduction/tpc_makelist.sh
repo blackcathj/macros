@@ -20,11 +20,7 @@ do
     for j in {0..1}
     do
 	ebdc=$(printf "%02d_%01d" $i $j)
-	/bin/ls -1 /sphenix/lustre01/sphnxpro/physics/tpc/${type}/TPC_ebdc${ebdc}*-${runnumber}-* > tpc${ebdc}.list
-	if [ ! -s tpc${ebdc}.list ]
-	then
-	    echo tpc${ebdc}.list empty, removing it
-	    rm  tpc${ebdc}.list
-	fi
+	/bin/ls -1 /sphenix/lustre01/sphnxpro/physics/tpc/${type}/TPC_ebdc${ebdc}*-${runnumber}-* > tpc-${runnumber}-${ebdc}.list
+  wc -l tpc-${runnumber}-${ebdc}.list
     done
 done
