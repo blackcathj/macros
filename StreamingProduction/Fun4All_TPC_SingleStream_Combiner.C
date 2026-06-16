@@ -49,12 +49,18 @@ bool isGood(const string &infile);
 //                                        const string &type = "streaming",
 //                                        const string &input_gl1file = "data/gl1daq-00069413.list",
 //                                        const string &input_tpcfile00 = "data/tpc-00069413-17_1.list")
-void Fun4All_TPC_SingleStream_Combiner(int nEvents = 5e5,
-                                       const int runnumber = 79523,
+// void Fun4All_TPC_SingleStream_Combiner(int nEvents = 3e6,
+//                                        const int runnumber = 79523,
+//                                        const string &outdir = "./data",
+//                                        const string &type = "streaming",
+//                                        const string &input_gl1file = "data/gl1daq-00079523.list",
+//                                        const string &input_tpcfile00 = "data/tpc-00079523-13_0.list")
+void Fun4All_TPC_SingleStream_Combiner(int nEvents = 2e1,
+                                       const int runnumber = 80287,
                                        const string &outdir = "./data",
                                        const string &type = "streaming",
-                                       const string &input_gl1file = "data/gl1daq-00079523.list",
-                                       const string &input_tpcfile00 = "data/tpc-00079523-13_0.list")
+                                       const string &input_gl1file = "data/gl1daq-00080287.list",
+                                       const string &input_tpcfile00 = "data/tpc-00080287-11_0.list")
 {
   // GL1 which provides the beam clock reference (if we ran with GL1)
   vector<string> gl1_infile;
@@ -119,6 +125,7 @@ void Fun4All_TPC_SingleStream_Combiner(int nEvents = 5e5,
       tpc_sngl->setHitContainerName("TPCRAWHIT_" + ebdc);
       tpc_sngl->AddListFile(iter);
       tpc_sngl->setDigitalCurrentDebugTTreeName(iter + "_DigitalCurrentDebugTTree.root");
+      tpc_sngl->setBXCounterSyncCDBTTreeName(iter + "_BXCounterSyncCDBTTree.root");
       tpc_sngl->Verbosity(1);
       // tpc_sngl->AddPacketID(4180);
 
