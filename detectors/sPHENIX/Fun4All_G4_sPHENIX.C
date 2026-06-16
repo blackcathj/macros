@@ -293,7 +293,7 @@ int Fun4All_G4_sPHENIX(
   //  Enable::DSTREADER = true;
 
   // turn the display on (default off)
-   //Enable::DISPLAY = true;
+  //  Enable::DISPLAY = true;
 
   //======================
   // What to run
@@ -339,15 +339,15 @@ int Fun4All_G4_sPHENIX(
   Enable::MICROMEGAS_CLUSTER = Enable::MICROMEGAS_CELL && true;
   Enable::MICROMEGAS_QA = Enable::MICROMEGAS_CLUSTER && Enable::QA && true;
 
-  Enable::TRACKING_TRACK = (Enable::MICROMEGAS_CLUSTER && Enable::TPC_CLUSTER && Enable::INTT_CLUSTER && Enable::MVTX_CLUSTER) && true;
-  Enable::GLOBAL_RECO = (Enable::MBDFAKE || Enable::MBDRECO || Enable::TRACKING_TRACK) && true;
-  Enable::TRACKING_EVAL = Enable::TRACKING_TRACK && Enable::GLOBAL_RECO && true;
-  Enable::TRACKING_QA = Enable::TRACKING_TRACK && Enable::QA && true;
+  // Enable::TRACKING_TRACK = (Enable::MICROMEGAS_CLUSTER && Enable::TPC_CLUSTER && Enable::INTT_CLUSTER && Enable::MVTX_CLUSTER) && true;
+  // Enable::GLOBAL_RECO = (Enable::MBDFAKE || Enable::MBDRECO || Enable::TRACKING_TRACK) && true;
+  // Enable::TRACKING_EVAL = Enable::TRACKING_TRACK && Enable::GLOBAL_RECO && true;
+  // Enable::TRACKING_QA = Enable::TRACKING_TRACK && Enable::QA && true;
 
   // only do track matching if TRACKINGTRACK is also used
-  Enable::TRACK_MATCHING = Enable::TRACKING_TRACK && false;
-  Enable::TRACK_MATCHING_TREE = Enable::TRACK_MATCHING && false;
-  Enable::TRACK_MATCHING_TREE_CLUSTERS = Enable::TRACK_MATCHING_TREE && false;
+  // Enable::TRACK_MATCHING = Enable::TRACKING_TRACK && false;
+  // Enable::TRACK_MATCHING_TREE = Enable::TRACK_MATCHING && false;
+  // Enable::TRACK_MATCHING_TREE_CLUSTERS = Enable::TRACK_MATCHING_TREE && false;
 
   //Additional tracking tools
   //Enable::TRACKING_DIAGNOSTICS = Enable::TRACKING_TRACK && true;
@@ -369,48 +369,48 @@ int Fun4All_G4_sPHENIX(
   //  into the tracking, cannot run together with CEMC
   //  Enable::CEMCALBEDO = true;
 
-  Enable::CEMC = true;
-  Enable::CEMC_ABSORBER = true;
-  Enable::CEMC_CELL = Enable::CEMC && true;
-  Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
-  Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
-  Enable::CEMC_EVAL = Enable::CEMC_G4Hit && Enable::CEMC_CLUSTER && true;
-  Enable::CEMC_QA = Enable::CEMC_CLUSTER && Enable::QA && true;
+  // Enable::CEMC = true;
+  // Enable::CEMC_ABSORBER = true;
+  // Enable::CEMC_CELL = Enable::CEMC && true;
+  // Enable::CEMC_TOWER = Enable::CEMC_CELL && true;
+  // Enable::CEMC_CLUSTER = Enable::CEMC_TOWER && true;
+  // Enable::CEMC_EVAL = Enable::CEMC_G4Hit && Enable::CEMC_CLUSTER && true;
+  // Enable::CEMC_QA = Enable::CEMC_CLUSTER && Enable::QA && true;
 
-  Enable::HCALIN = true;
-  Enable::HCALIN_ABSORBER = true;
-  Enable::HCALIN_CELL = Enable::HCALIN && true;
-  Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
-  Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
-  Enable::HCALIN_EVAL = Enable::HCALIN_G4Hit && Enable::HCALIN_CLUSTER && true;
-  Enable::HCALIN_QA = Enable::HCALIN_CLUSTER && Enable::QA && true;
+  // Enable::HCALIN = true;
+  // Enable::HCALIN_ABSORBER = true;
+  // Enable::HCALIN_CELL = Enable::HCALIN && true;
+  // Enable::HCALIN_TOWER = Enable::HCALIN_CELL && true;
+  // Enable::HCALIN_CLUSTER = Enable::HCALIN_TOWER && true;
+  // Enable::HCALIN_EVAL = Enable::HCALIN_G4Hit && Enable::HCALIN_CLUSTER && true;
+  // Enable::HCALIN_QA = Enable::HCALIN_CLUSTER && Enable::QA && true;
 
-  Enable::MAGNET = true;
-  Enable::MAGNET_ABSORBER = true;
+  // Enable::MAGNET = true;
+  // Enable::MAGNET_ABSORBER = true;
 
-  Enable::HCALOUT = true;
-  Enable::HCALOUT_ABSORBER = true;
-  Enable::HCALOUT_CELL = Enable::HCALOUT && true;
-  Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
-  Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
-  Enable::HCALOUT_EVAL = Enable::HCALOUT_G4Hit && Enable::HCALOUT_CLUSTER && true;
-  Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER && Enable::QA && true;
+  // Enable::HCALOUT = true;
+  // Enable::HCALOUT_ABSORBER = true;
+  // Enable::HCALOUT_CELL = Enable::HCALOUT && true;
+  // Enable::HCALOUT_TOWER = Enable::HCALOUT_CELL && true;
+  // Enable::HCALOUT_CLUSTER = Enable::HCALOUT_TOWER && true;
+  // Enable::HCALOUT_EVAL = Enable::HCALOUT_G4Hit && Enable::HCALOUT_CLUSTER && true;
+  // Enable::HCALOUT_QA = Enable::HCALOUT_CLUSTER && Enable::QA && true;
 
-  Enable::EPD = true;
-  Enable::EPD_TILE = Enable::EPD && true;
+  // Enable::EPD = true;
+  // Enable::EPD_TILE = Enable::EPD && true;
 
-  Enable::BEAMLINE = true;
-  //  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
-  //  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
-  Enable::ZDC = true;
-  //  Enable::ZDC_ABSORBER = true;
-  //  Enable::ZDC_SUPPORT = true;
-  Enable::ZDC_TOWER = Enable::ZDC && true;
-  Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
+  // Enable::BEAMLINE = true;
+  // //  Enable::BEAMLINE_ABSORBER = true;  // makes the beam line magnets sensitive volumes
+  // //  Enable::BEAMLINE_BLACKHOLE = true; // turns the beamline magnets into black holes
+  // Enable::ZDC = true;
+  // //  Enable::ZDC_ABSORBER = true;
+  // //  Enable::ZDC_SUPPORT = true;
+  // Enable::ZDC_TOWER = Enable::ZDC && true;
+  // Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
 
-  //! forward flux return plug door. Out of acceptance and off by default.
-  //Enable::PLUGDOOR = true;
-  Enable::PLUGDOOR_ABSORBER = true;
+  // //! forward flux return plug door. Out of acceptance and off by default.
+  // //Enable::PLUGDOOR = true;
+  // Enable::PLUGDOOR_ABSORBER = true;
 
  //Enable::GLOBAL_FASTSIM = true;
 
@@ -419,26 +419,26 @@ int Fun4All_G4_sPHENIX(
   //Enable::KFPARTICLE_TRUTH_MATCH = true;
   //Enable::KFPARTICLE_SAVE_NTUPLE = true;
 
-  Enable::CALOTRIGGER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
+  // Enable::CALOTRIGGER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
 
-  Enable::JETS = (Enable::GLOBAL_RECO || Enable::GLOBAL_FASTSIM) && true;
-  Enable::JETS_EVAL = Enable::JETS && true;
-  Enable::JETS_QA = Enable::JETS && Enable::QA && true;
+  // Enable::JETS = (Enable::GLOBAL_RECO || Enable::GLOBAL_FASTSIM) && true;
+  // Enable::JETS_EVAL = Enable::JETS && true;
+  // Enable::JETS_QA = Enable::JETS && Enable::QA && true;
 
-  // HI Jet Reco for p+Au / Au+Au collisions (default is false for
-  // single particle / p+p-only simulations, or for p+Au / Au+Au
-  // simulations which don't particularly care about jets)
-  Enable::HIJETS = Enable::JETS && Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
+  // // HI Jet Reco for p+Au / Au+Au collisions (default is false for
+  // // single particle / p+p-only simulations, or for p+Au / Au+Au
+  // // simulations which don't particularly care about jets)
+  // Enable::HIJETS = Enable::JETS && Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
 
-  // 3-D topoCluster reconstruction, potentially in all calorimeter layers
-  Enable::TOPOCLUSTER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
-  // particle flow jet reconstruction - needs topoClusters!
-  Enable::PARTICLEFLOW = Enable::TOPOCLUSTER && true;
-  // centrality reconstruction
-  Enable::CENTRALITY = true;
+  // // 3-D topoCluster reconstruction, potentially in all calorimeter layers
+  // Enable::TOPOCLUSTER = Enable::CEMC_TOWER && Enable::HCALIN_TOWER && Enable::HCALOUT_TOWER && false;
+  // // particle flow jet reconstruction - needs topoClusters!
+  // Enable::PARTICLEFLOW = Enable::TOPOCLUSTER && true;
+  // // centrality reconstruction
+  // Enable::CENTRALITY = true;
 
   // new settings using Enable namespace in GlobalVariables.C
-  Enable::BLACKHOLE = true;
+  // Enable::BLACKHOLE = true;
   //Enable::BLACKHOLE_SAVEHITS = false; // turn off saving of bh hits
   //Enable::BLACKHOLE_FORWARD_SAVEHITS = false; // disable forward/backward hits
   //BlackHoleGeometry::visible = true;
@@ -699,18 +699,6 @@ int Fun4All_G4_sPHENIX(
   //-----------------
   if (Enable::DISPLAY)
   {
-    DisplayOn();
-
-    gROOT->ProcessLine("Fun4AllServer *se = Fun4AllServer::instance();");
-    gROOT->ProcessLine("PHG4Reco *g4 = (PHG4Reco *) se->getSubsysReco(\"PHG4RECO\");");
-
-    std::cout << "-------------------------------------------------" << std::endl;
-    std::cout << "You are in event display mode. Run one event with" << std::endl;
-    std::cout << "se->run(1)" << std::endl;
-    std::cout << "Run Geant4 command with following examples" << std::endl;
-    gROOT->ProcessLine("displaycmd()");
-
-    return 0;
   }
 
   // if we use a negative number of events we go back to the command line here
@@ -730,6 +718,9 @@ int Fun4All_G4_sPHENIX(
   se->skip(skip);
   se->run(nEvents);
   //  se->PrintTimer();
+
+  PHG4Reco *g4 = (PHG4Reco *) se->getSubsysReco("PHG4RECO");
+  g4->ApplyCommand("/control/execute  matscan_voxel_prime.mac");
 
   //-----
   // QA output
