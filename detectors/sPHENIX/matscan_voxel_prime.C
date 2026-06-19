@@ -35,8 +35,8 @@ void matscan_voxel_prime()
   }
 
   // Prime-number grids to reduce aliasing / beating with detector symmetries.
-  const int Nz = 13;   // prime; about 1.01 mm spacing over 20 cm
-  const int Nphi = 13;  // prime
+  const int Nz = 5;   // prime; about 1.01 mm spacing over 20 cm
+  const int Nphi = 5;  // prime
 
   const double zmin_cm = -10.0;
   const double zmax_cm =  10.0;
@@ -49,7 +49,7 @@ void matscan_voxel_prime()
 
   // 1 mm increments along the fixed ray direction.
   const double step_cm = 0.2;
-  const int nSteps = 250; // 20 cm path per ray
+  const int nSteps = 125; // 20 cm path per ray
 
   out << std::fixed << std::setprecision(3);
   out << "# Auto-generated Geant4 macro for approximate voxelized material scan\n";
@@ -57,7 +57,7 @@ void matscan_voxel_prime()
   out << "# z in [-10, 10] cm with prime-number sampling\n";
   out << "# phi in [0, 360) deg with prime-number sampling\n";
   out << "# eyePosition shifted in 1 mm steps along the ray\n\n";
-  out << "/control/verbose 0\n";
+  out << "/control/verbose 1\n";
   out << "/control/matScan/eyePosition 0 0 0 cm\n";
   out << "\n";
 
