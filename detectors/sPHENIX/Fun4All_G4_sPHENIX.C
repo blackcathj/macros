@@ -293,7 +293,7 @@ int Fun4All_G4_sPHENIX(
   //  Enable::DSTREADER = true;
 
   // turn the display on (default off)
-   //Enable::DISPLAY = true;
+   Enable::DISPLAY = true;
 
   //======================
   // What to run
@@ -307,10 +307,10 @@ int Fun4All_G4_sPHENIX(
   //  Enable::OVERLAPCHECK = true;
   //  Enable::VERBOSITY = 1;
 
-  // Enable::MBD = true;
-  // Enable::MBD_SUPPORT = true; // save hist in MBD/BBC support structure
+  Enable::MBD = true;
+  Enable::MBD_SUPPORT = true; // save hist in MBD/BBC support structure
   // Enable::MBDRECO = Enable::MBD && true;
-  Enable::MBDFAKE = true;  // Smeared vtx and t0, use if you don't want real MBD/BBC in simulation
+  // Enable::MBDFAKE = true;  // Smeared vtx and t0, use if you don't want real MBD/BBC in simulation
 
   Enable::PIPE = true;
   Enable::PIPE_ABSORBER = true;
@@ -409,7 +409,7 @@ int Fun4All_G4_sPHENIX(
   Enable::ZDC_EVAL = Enable::ZDC_TOWER && true;
 
   //! forward flux return plug door. Out of acceptance and off by default.
-  //Enable::PLUGDOOR = true;
+  Enable::PLUGDOOR = true;
   Enable::PLUGDOOR_ABSORBER = true;
 
  //Enable::GLOBAL_FASTSIM = true;
