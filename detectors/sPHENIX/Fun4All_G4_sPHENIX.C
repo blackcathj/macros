@@ -76,7 +76,23 @@ int Fun4All_G4_sPHENIX(
   // this would be:
   //  rc->set_IntFlag("RANDOMSEED",PHRandomSeed());
   // or set it to a fixed value so you can debug your code
-   rc->set_IntFlag("RANDOMSEED", 1);
+   rc->set_IntFlag("RANDOMSEED", 3 );
+  // result parton kinematics :  
+  //  --------  PYTHIA Event Listing  (hard process)  -----------------------------------------------------------------------------------
+  
+  //     no         id  name            status     mothers   daughters     colours      p_x        p_y        p_z         e          m 
+  //      0         90  (system)           -11     0     0     0     0     0     0      0.000      0.000      0.000    200.000    200.000
+  //      1       2212  (p+)               -12     0     0     3     0     0     0      0.000      0.000     99.996    100.000      0.938
+  //      2       2212  (p+)               -12     0     0     4     0     0     0      0.000      0.000    -99.996    100.000      0.938
+  //      3          2  (u)                -21     1     0     5     6   101     0      0.000      0.000     49.203     49.203      0.000
+  //      4         21  (g)                -21     2     0     5     6   102   103      0.000      0.000    -62.570     62.570      0.000
+  //      5          2  u                   23     3     4     0     0   102     0    -12.652    -43.484    -38.972     59.748      0.330
+  //      6         21  g                   23     3     4     0     0   101   103     12.652     43.484     25.605     52.024      0.000
+  //                                    Charge sum:  0.667           Momentum sum:      0.000      0.000    -13.367    111.772    110.970
+
+
+
+  //  rc->set_IntFlag("RANDOMSEED", 12);
 
 
   //===============
@@ -114,10 +130,10 @@ int Fun4All_G4_sPHENIX(
   //  Input::PYTHIA6 = true;
 
   Input::PYTHIA8 = true;
-  Input::config_file =
+  PYTHIA8::config_file =
   {
     {0, std::string(getenv("CALIBRATIONROOT")) + "/Generators/JetStructure_TG/phpythia8_60GeV_JS_MDC2.cfg"}
-  }
+  };
 
   //  Input::GUN = true;
   //  Input::GUN_NUMBER = 3; // if you need 3 of them
@@ -317,7 +333,7 @@ int Fun4All_G4_sPHENIX(
   // Enable::MBDFAKE = true;  // Smeared vtx and t0, use if you don't want real MBD/BBC in simulation
 
   Enable::PIPE = true;
-  Enable::PIPE_ABSORBER = true;
+//   Enable::PIPE_ABSORBER = true;
 
   // central tracking
   Enable::MVTX = true;
@@ -708,6 +724,8 @@ int Fun4All_G4_sPHENIX(
   if (Enable::DISPLAY)
   {
     DisplayOn();
+
+    se->run(1);
 
     gROOT->ProcessLine("Fun4AllServer *se = Fun4AllServer::instance();");
     gROOT->ProcessLine("PHG4Reco *g4 = (PHG4Reco *) se->getSubsysReco(\"PHG4RECO\");");
